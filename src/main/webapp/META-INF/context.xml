@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="jdbc/xkcd" auth="Container" type="javax.sql.DataSource" driverClassName="org.apache.derby.jdbc.EmbeddedDriver" url="jdbc:derby:xkcd;create=true" />
+</Context>

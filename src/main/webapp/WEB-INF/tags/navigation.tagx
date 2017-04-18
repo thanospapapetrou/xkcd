@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root version="2.3" xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:xkcd="https://github.com/thanospapapetrou/xkcd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/JSP/Page http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/jsp_2_3.xsd">
+	<jsp:directive.tag language="java" />
+	<jsp:directive.attribute name="id" required="true" type="java.lang.Integer" description="The ID of an xkcd comic" />
+	<jsp:directive.attribute name="random" required="true" type="java.lang.Integer" description="The ID of a random xkcd comic" />
+	<jsp:directive.attribute name="current" required="true" type="java.lang.Integer" description="The ID of the current xkcd comic" />
+	<nav>
+		<c:choose>
+			<c:when test="${id gt 1}">
+				<xkcd:button value="|&lt;" href="comic/1" />
+				<xkcd:button value="&lt;&#160;prev" href="comic/${id - 1}" />
+			</c:when>
+			<c:otherwise>
+				<xkcd:button value="|&lt;" />
+				<xkcd:button value="&lt;&#160;prev" />
+			</c:otherwise>
+		</c:choose>
+		<xkcd:button value="random" href="comic/${random}" />
+		<c:choose>
+			<c:when test="${id lt current}">
+				<xkcd:button value="next&#160;&gt;" href="comic/${id + 1}" />
+				<xkcd:button value="&gt;|" href="comic/${current}" />
+			</c:when>
+			<c:otherwise>
+				<xkcd:button value="next&#160;&gt;" />
+				<xkcd:button value="&gt;|" />
+			</c:otherwise>
+		</c:choose>
+	</nav>
+</jsp:root>

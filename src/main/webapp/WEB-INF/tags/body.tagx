@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root version="2.3" xmlns="http://www.w3.org/1999/xhtml" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/JSP/Page http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/jsp_2_3.xsd">
+	<jsp:directive.tag language="java" />
+	<body>
+		<header>
+			<a href="comic/current">
+				<img src="xkcd.png" alt="xkcd" />
+				<div>
+					<h2>xkcd</h2>
+					<p>A webcomic of romance, sarcasm, math, and language.</p>
+				</div>
+			</a>
+		</header>
+		<jsp:doBody />
+		<footer>
+			<p>Comics retrieved from <a href="https://xkcd.com/">xkcd.com</a> under <a href="https://creativecommons.org/licenses/by-nc/2.5/">Creative Commons Attribution-NonCommercial 2.5 License</a>.</p>
+		</footer>
+	</body>
+</jsp:root>

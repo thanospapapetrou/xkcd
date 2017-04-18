@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root version="2.3" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:xkcd="https://github.com/thanospapapetrou/xkcd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/JSP/Page http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/jsp_2_3.xsd">
+	<jsp:directive.page contentType="application/xhtml+xml;charset=UTF-8" language="java" />
+	<jsp:output omit-xml-declaration="true" doctype-root-element="html" doctype-system="about:legacy-compat" />
+	<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+		<xkcd:head>
+			<link rel="alternate" type="application/json" href="comic/${comic.id}" hreflang="en" />
+			<link rel="alternate" type="text/plain"  href="comic/${comic.id}" hreflang="en" />
+			<c:if test="${comic.id lt current}">
+				<link rel="next" type="application/xhtml+xml" href="comic/${comic.id + 1}" hreflang="en" />
+			</c:if>
+			<c:if test="${comic.id gt 1}">
+				<link rel="prev" type="application/xhtml+xml" href="comic/${comic.id - 1}" hreflang="en" />
+			</c:if>
+		</xkcd:head>
+		<xkcd:body>
+			<xkcd:navigation id="${comic.id}" random="${random}" current="${current}" />
+			<main>
+				<h1 title="${comic.title}">
+					<c:out value="${comic.safeTitle}" />
+				</h1>
+				<fmt:setTimeZone value="GMT+00:00" />
+				<fmt:setLocale value="en" />
+				<fmt:formatDate value="${comic.date}" pattern="yyyy-MM-dd" var="date" />
+				<p>
+					<c:out value="#${comic.id}&#160;-&#160;" />
+					<time datetime="${date}">
+						<fmt:formatDate value="${comic.date}" type="DATE" dateStyle="FULL" />
+					</time>
+				</p>
+				<xkcd:figure image="${comic.image}" link="${comic.link}" transcript="${comic.transcript}" alternate="${comic.alternate}" />
+				<c:if test="${not (empty comic.news)}">
+					<p>
+						<c:out value="${comic.news}" />
+					</p>
+				</c:if>
+			</main>
+			<xkcd:navigation id="${comic.id}" random="${random}" current="${current}" />
+		</xkcd:body>
+	</html>
+</jsp:root>

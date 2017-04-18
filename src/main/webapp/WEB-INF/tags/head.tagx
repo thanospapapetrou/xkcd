@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root version="2.3" xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/JSP/Page http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/jsp_2_3.xsd">
+	<jsp:directive.tag language="java" />
+	<head>
+		<jsp:element name="base">
+			<jsp:attribute name="href">
+				<c:url value="/" />
+			</jsp:attribute>
+		</jsp:element>
+		<meta charset="UTF-8" />
+		<meta name="application-name" content="xkcd" />
+		<meta name="description" content="A webcomic of romance, sarcasm, math, and language." />
+		<meta name="keywords" content="xkcd, comic, webcomic, romance, sarcasm, math, language" />
+		<meta name="generator" content="xkcd-1.0.0-SNAPSHOT" />
+		<meta http-equiv="default-style" content="xkcd" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<jsp:doBody />	
+		<link rel="license" type="text/html" href="http://www.gnu.org/licenses/agpl-3.0.en.html" hreflang="en" />
+		<link rel="icon" type="image/x-icon" href="xkcd.ico" sizes="16x16" />
+		<link rel="stylesheet" type="text/css" href="xkcd.css" title="xkcd" />
+		<title>xkcd</title>
+	</head>
+</jsp:root>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="xkcd" transaction-type="RESOURCE_LOCAL">
+		<non-jta-data-source>java:comp/env/jdbc/xkcd</non-jta-data-source>
+		<class>com.github.thanospapapetrou.xkcd.domain.Comic</class>
+		<class>com.github.thanospapapetrou.xkcd.impl.cache.jpa.converters.AlternateConverter</class>
+		<class>com.github.thanospapapetrou.xkcd.impl.cache.jpa.converters.ImageConverter</class>
+		<class>com.github.thanospapapetrou.xkcd.impl.cache.jpa.converters.LinkConverter</class>
+		<class>com.github.thanospapapetrou.xkcd.impl.cache.jpa.converters.NewsConverter</class>
+		<class>com.github.thanospapapetrou.xkcd.impl.cache.jpa.converters.SafeTitleConverter</class>
+		<class>com.github.thanospapapetrou.xkcd.impl.cache.jpa.converters.TitleConverter</class>
+		<class>com.github.thanospapapetrou.xkcd.impl.cache.jpa.converters.TranscriptConverter</class>
+		<properties>
+			<property name="javax.persistence.schema-generation.database.action" value="create" />
+			<property name="javax.persistence.schema-generation.create-source" value="metadata" />
+		</properties>
+	</persistence-unit>
+</persistence>
