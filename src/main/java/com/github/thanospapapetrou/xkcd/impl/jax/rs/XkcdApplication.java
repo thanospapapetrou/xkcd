@@ -1,4 +1,4 @@
-package com.github.thanospapapetrou.xkcd.impl.jax_rs;
+package com.github.thanospapapetrou.xkcd.impl.jax.rs;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,9 +8,9 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.github.thanospapapetrou.xkcd.impl.jax_rs.writers.JsonComicMessageBodyWriter;
-import com.github.thanospapapetrou.xkcd.impl.jax_rs.writers.TextComicMessageBodyWriter;
-import com.github.thanospapapetrou.xkcd.impl.jax_rs.writers.Xhtml5ComicMessageBodyWriter;
+import com.github.thanospapapetrou.xkcd.impl.jax.rs.writers.JsonComicMessageBodyWriter;
+import com.github.thanospapapetrou.xkcd.impl.jax.rs.writers.TextComicMessageBodyWriter;
+import com.github.thanospapapetrou.xkcd.impl.jax.rs.writers.Xhtml5ComicMessageBodyWriter;
 
 /**
  * JAX-RS application exposing an xkcd server. This class is thread-safe.

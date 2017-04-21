@@ -1,4 +1,4 @@
-package com.github.thanospapapetrou.xkcd.impl.jax_rs;
+package com.github.thanospapapetrou.xkcd.impl.jax.rs;
 
 import java.util.Objects;
 
@@ -38,7 +38,8 @@ public class XkcdServer implements Xkcd {
 		this.xkcd = Objects.requireNonNull(xkcd, NULL_XKCD);
 	}
 
-	XkcdServer() { // just to keep CDI happy
+	XkcdServer() {
+		// this constructor exists just to keep CDI happy
 		xkcd = null;
 	}
 

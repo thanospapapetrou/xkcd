@@ -8,6 +8,9 @@ import javax.ws.rs.core.Response;
  * @author thanos
  */
 public class Functions {
+	private Functions() {
+	}
+
 	/**
 	 * Get the HTTP reason phrase corresponding to an HTTP status code.
 	 * 

@@ -1,4 +1,4 @@
-package com.github.thanospapapetrou.xkcd.impl.jax_rs.writers;
+package com.github.thanospapapetrou.xkcd.impl.jax.rs.writers;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,7 +12,6 @@ import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -53,7 +52,7 @@ public class JsonComicMessageBodyWriter implements MessageBodyWriter<Comic> {
 	}
 
 	@Override
-	public void writeTo(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> httpHeaders, final OutputStream output) throws IOException, WebApplicationException {
+	public void writeTo(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> httpHeaders, final OutputStream output) throws IOException {
 		Objects.requireNonNull(comic, NULL_COMIC);
 		Objects.requireNonNull(httpHeaders, NULL_HTTP_HEADERS);
 		Objects.requireNonNull(output, NULL_OUTPUT);

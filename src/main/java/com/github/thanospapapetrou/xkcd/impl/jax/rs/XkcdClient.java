@@ -1,4 +1,4 @@
-package com.github.thanospapapetrou.xkcd.impl.jax_rs;
+package com.github.thanospapapetrou.xkcd.impl.jax.rs;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -54,7 +54,8 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 		target = client.target(baseUrl.toString());
 	}
 
-	XkcdClient() { // just to keep CDI happy
+	XkcdClient() {
+		// this constructor exists just to keep CDI happy
 		client = null;
 		target = null;
 	}

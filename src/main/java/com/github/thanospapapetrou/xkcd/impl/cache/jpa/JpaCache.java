@@ -40,7 +40,8 @@ public class JpaCache implements Cache {
 		this.manager = Objects.requireNonNull(manager, NULL_MANAGER);
 	}
 
-	JpaCache() { // just to keep CDI happy
+	JpaCache() {
+		// this constructor exists just to keep CDI happy
 		manager = null;
 	}
 

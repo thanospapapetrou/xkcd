@@ -135,7 +135,8 @@ public class Comic {
 		this.news = ((news != null) && news.isEmpty()) ? null : news;
 	}
 
-	Comic() { // just to keep JPA happy
+	Comic() {
+		// this constructor exists just to keep JPA happy
 		id = 0;
 		date = null;
 		title = null;

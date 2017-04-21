@@ -65,7 +65,8 @@ public class JdbcCache implements Cache {
 		this.connection = Objects.requireNonNull(connection, NULL_CONNECTION);
 	}
 
-	JdbcCache() { // just to keep CDI happy
+	JdbcCache() {
+		// this constructor exists just to keep CDI happy
 		connection = null;
 	}
 

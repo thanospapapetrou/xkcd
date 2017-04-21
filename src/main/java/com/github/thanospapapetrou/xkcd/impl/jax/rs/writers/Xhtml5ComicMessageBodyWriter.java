@@ -1,4 +1,4 @@
-package com.github.thanospapapetrou.xkcd.impl.jax_rs.writers;
+package com.github.thanospapapetrou.xkcd.impl.jax.rs.writers;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -77,7 +76,7 @@ public class Xhtml5ComicMessageBodyWriter implements MessageBodyWriter<Comic> {
 	}
 
 	@Override
-	public void writeTo(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> httpHeaders, final OutputStream output) throws IOException, WebApplicationException {
+	public void writeTo(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> httpHeaders, final OutputStream output) throws IOException {
 		Objects.requireNonNull(comic, NULL_COMIC);
 		try {
 			final StringWriter buffer = new StringWriter();

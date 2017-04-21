@@ -13,13 +13,6 @@ public class XkcdException extends Exception {
 	private static final String NULL_MESSAGE = "Message must not be null";
 	private static final long serialVersionUID = 0L;
 
-	private static String requireValidMessage(final String message) {
-		if (Objects.requireNonNull(message, NULL_MESSAGE).isEmpty()) {
-			throw new IllegalArgumentException(EMPTY_MESSAGE);
-		}
-		return message;
-	}
-
 	/**
 	 * Construct a new xkcd exception.
 	 * 
@@ -30,5 +23,12 @@ public class XkcdException extends Exception {
 	 */
 	public XkcdException(final String message, final Throwable cause) {
 		super(requireValidMessage(message), Objects.requireNonNull(cause, NULL_CAUSE));
+	}
+
+	private static String requireValidMessage(final String message) {
+		if (Objects.requireNonNull(message, NULL_MESSAGE).isEmpty()) {
+			throw new IllegalArgumentException(EMPTY_MESSAGE);
+		}
+		return message;
 	}
 }

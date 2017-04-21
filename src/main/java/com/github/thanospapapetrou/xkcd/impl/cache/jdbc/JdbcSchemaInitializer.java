@@ -36,6 +36,7 @@ public class JdbcSchemaInitializer implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(final ServletContextEvent event) {
+		// nothing to do on context destruction
 	}
 
 	@Override

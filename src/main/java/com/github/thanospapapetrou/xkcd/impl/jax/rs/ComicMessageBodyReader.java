@@ -1,4 +1,4 @@
-package com.github.thanospapapetrou.xkcd.impl.jax_rs;
+package com.github.thanospapapetrou.xkcd.impl.jax.rs;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,6 @@ import java.util.TimeZone;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
@@ -72,11 +71,11 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 
 	@Override
 	public boolean isReadable(final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType) {
-		return (getCharset(mediaType) != null);
+		return getCharset(mediaType) != null;
 	}
 
 	@Override
-	public Comic readFrom(final Class<Comic> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, String> httpHeaders, final InputStream input) throws IOException, WebApplicationException {
+	public Comic readFrom(final Class<Comic> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, String> httpHeaders, final InputStream input) throws IOException {
 		final Charset charset = getCharset(mediaType);
 		Objects.requireNonNull(input, NULL_INPUT);
 		final JsonObject json = Json.createReader(new InputStreamReader(input, charset)).readObject();
