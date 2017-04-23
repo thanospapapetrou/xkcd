@@ -1,4 +1,12 @@
 sonar
-check restrictions on saving in JDBC and JPA
-add configuration file
-
+check primary key restrictions on saving in JDBC and JPA
+1608
+inject caching in derby terminator instead of retrieving it
+inject cache in caching xkcd without configuration annotation
+inject caching in JDBC schema initializer instead of retrieving it
+inject connection in JDBC schema initializer instead of retrieving it
+add configuration log messages in configuration producer
+use injection point and name in configuration producer
+add produceCache() with caching as argument annotated with configuration in injection producer
+add data source as argument of produceConnection() in injection producer
+add entity manager factory as argument of produceEntityManager() in injection producer

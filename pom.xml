@@ -140,9 +140,11 @@
 							<artifactId>tomcat</artifactId>
 							<version>${tomcat.version}</version>
 						</artifactInstaller>
-						<systemProperties>
-							<xkcd.caching>JPA</xkcd.caching>
-						</systemProperties>
+						<!-- systemProperties>
+							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
+							<xkcd.caching>JDBC</xkcd.caching>
+							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
+						</systemProperties -->
 					</container>
 					<configuration>
 						<properties>

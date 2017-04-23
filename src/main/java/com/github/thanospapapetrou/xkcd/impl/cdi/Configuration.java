@@ -28,6 +28,11 @@ public @interface Configuration {
 	public static final String CACHING = "xkcd.caching";
 
 	/**
+	 * Configuration file to use.
+	 */
+	public static final String CONFIGURATION_FILE = "xkcd.configuration.file";
+
+	/**
 	 * The name of the system property or the servlet context initialization parameter to use for configuring the qualified parameter.
 	 * 
 	 * @return the name of the system property or the servlet context initialization parameter to use for configuring the qualified parameter
