@@ -2,12 +2,12 @@ package com.github.thanospapapetrou.xkcd.impl.cdi;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.CDI;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
@@ -23,6 +23,10 @@ import javax.sql.DataSource;
 @ApplicationScoped
 public class InjectionProducer {
 	private static final String DATA_SOURCE = "java:/comp/env/jdbc/xkcd";
+	private static final String NULL_CONNECTION = "Connection must not be null";
+	private static final String NULL_DATA_SOURCE = "Data source must not be null";
+	private static final String NULL_ENTITY_MANAGER = "Entity manager must not be null";
+	private static final String NULL_ENTITY_MANAGER_FACTORY = "Entity manager factory must not be null";
 	private static final String PERSISTENCE_UNIT = "xkcd";
 
 	/**
@@ -34,6 +38,7 @@ public class InjectionProducer {
 	 *             if any errors occur
 	 */
 	public void dispose(@Disposes final Connection connection) throws SQLException {
+		Objects.requireNonNull(connection, NULL_CONNECTION);
 		if (!connection.isClosed()) {
 			connection.close();
 		}
@@ -42,38 +47,42 @@ public class InjectionProducer {
 	/**
 	 * Dispose an entity manager by closing it.
 	 * 
-	 * @param manager
+	 * @param entityManager
 	 *            the entity manager to dispose
 	 */
-	public void dispose(@Disposes final EntityManager manager) {
-		if (manager.isOpen()) {
-			manager.close();
+	public void dispose(@Disposes final EntityManager entityManager) {
+		Objects.requireNonNull(entityManager, NULL_ENTITY_MANAGER);
+		if (entityManager.isOpen()) {
+			entityManager.close();
 		}
 	}
 
 	/**
 	 * Dispose an entity manager factory by closing it.
 	 * 
-	 * @param factory
+	 * @param entityManagerFactory
 	 *            the entity manager factory to dispose
 	 */
-	public void dispose(@Disposes final EntityManagerFactory factory) {
-		if (factory.isOpen()) {
-			factory.close();
+	public void dispose(@Disposes final EntityManagerFactory entityManagerFactory) {
+		Objects.requireNonNull(entityManagerFactory, NULL_ENTITY_MANAGER_FACTORY);
+		if (entityManagerFactory.isOpen()) {
+			entityManagerFactory.close();
 		}
 	}
 
 	/**
 	 * Produce a connection.
 	 * 
+	 * @param dataSource
+	 *            the data source to use to produce the connection
 	 * @return a connection
 	 * @throws SQLException
 	 *             if any errors occur
 	 */
 	@Produces
 	@RequestScoped
-	public Connection produceConnection() throws SQLException {
-		final DataSource dataSource = CDI.current().select(DataSource.class).get();
+	public Connection produceConnection(final DataSource dataSource) throws SQLException {
+		Objects.requireNonNull(dataSource, NULL_DATA_SOURCE);
 		synchronized (dataSource) {
 			return dataSource.getConnection();
 		}
@@ -95,14 +104,16 @@ public class InjectionProducer {
 	/**
 	 * Produce an entity manager.
 	 * 
+	 * @param entityManagerFactory
+	 *            the entity manager factory to use to produce the entity manager
 	 * @return an entity manager
 	 */
 	@Produces
 	@RequestScoped
-	public EntityManager produceEntityManager() {
-		final EntityManagerFactory factory = CDI.current().select(EntityManagerFactory.class).get();
-		synchronized (factory) {
-			return factory.createEntityManager();
+	public EntityManager produceEntityManager(final EntityManagerFactory entityManagerFactory) {
+		Objects.requireNonNull(entityManagerFactory, NULL_ENTITY_MANAGER_FACTORY);
+		synchronized (entityManagerFactory) {
+			return entityManagerFactory.createEntityManager();
 		}
 	}
 
