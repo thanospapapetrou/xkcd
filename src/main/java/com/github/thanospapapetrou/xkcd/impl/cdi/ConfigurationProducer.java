@@ -12,12 +12,9 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-
-import com.github.thanospapapetrou.xkcd.impl.cache.Cache;
 
 /**
  * Class defining CDI producer methods for parameters annotated with the {@link Configuration} qualifier. Values for these parameters are resolved against system properties or servlet context initialization parameters. Instances of this class are thread-safe.
@@ -58,17 +55,16 @@ public class ConfigurationProducer {
 	}
 
 	/**
-	 * Produce a cache.
+	 * Produce a caching.
 	 * 
 	 * @param injectionPoint
-	 *            the injection point where the cache is to be injected
+	 *            the injection point where the URL is to be injected
 	 * @return a cache to be injected in the given injection point
 	 */
 	@Configuration("")
 	@Produces
-	public Cache produceCache(final InjectionPoint injectionPoint) {
-		final Class<? extends Cache> implementation = Caching.valueOf(produceString(injectionPoint)).getImplementation();
-		return (implementation == null) ? null : CDI.current().select(implementation).get();
+	public Caching produceCaching(final InjectionPoint injectionPoint) {
+		return Caching.valueOf(produceString(injectionPoint));
 	}
 
 	/**

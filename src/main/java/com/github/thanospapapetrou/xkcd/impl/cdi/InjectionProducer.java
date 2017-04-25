@@ -8,12 +8,15 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.CDI;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.sql.DataSource;
+
+import com.github.thanospapapetrou.xkcd.impl.cache.Cache;
 
 /**
  * Class defining CDI producer and disposer methods.
@@ -23,6 +26,7 @@ import javax.sql.DataSource;
 @ApplicationScoped
 public class InjectionProducer {
 	private static final String DATA_SOURCE = "java:/comp/env/jdbc/xkcd";
+	private static final String NULL_CACHING = "Caching must not be null";
 	private static final String NULL_CONNECTION = "Connection must not be null";
 	private static final String NULL_DATA_SOURCE = "Data source must not be null";
 	private static final String NULL_ENTITY_MANAGER = "Entity manager must not be null";
@@ -68,6 +72,20 @@ public class InjectionProducer {
 		if (entityManagerFactory.isOpen()) {
 			entityManagerFactory.close();
 		}
+	}
+
+	/**
+	 * Produce a cache.
+	 * 
+	 * @param caching
+	 *            the caching mode to use for producing the cache
+	 * @return a cache
+	 */
+	@Produces
+	@Selector
+	public Cache produceCache(@Configuration(Configuration.CACHING) final Caching caching) {
+		Objects.requireNonNull(caching, NULL_CACHING);
+		return (caching.getImplementation() == null) ? null : CDI.current().select(caching.getImplementation()).get();
 	}
 
 	/**

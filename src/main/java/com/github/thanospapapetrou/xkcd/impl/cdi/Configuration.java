@@ -9,7 +9,7 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
 /**
- * Qualifier specifying a parameter to be configured via {@link ConfigurationProducer}. Values of these parameters are resolved against system properties or servlet context initialization parameters.
+ * Qualifier specifying a parameter to be configured via {@link ConfigurationProducer}. Values of these parameters are resolved against system properties, properties defined via a configuration file or servlet context initialization parameters.
  * 
  * @author thanos
  */
