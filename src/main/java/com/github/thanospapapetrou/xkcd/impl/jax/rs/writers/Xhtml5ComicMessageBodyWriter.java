@@ -41,6 +41,8 @@ public class Xhtml5ComicMessageBodyWriter implements MessageBodyWriter<Comic> {
 	private static final String CURRENT = "current";
 	private static final String JSP = "/WEB-INF/comic.jspx";
 	private static final String NULL_COMIC = "Comic must not be null";
+	private static final String NULL_REQUEST = "Request must not be null";
+	private static final String NULL_RESPONSE = "Response must not be null";
 	private static final String NULL_XKCD = "xkcd must not be null";
 	private static final String RANDOM = "random";
 
@@ -78,6 +80,8 @@ public class Xhtml5ComicMessageBodyWriter implements MessageBodyWriter<Comic> {
 	@Override
 	public void writeTo(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> httpHeaders, final OutputStream output) throws IOException {
 		Objects.requireNonNull(comic, NULL_COMIC);
+		Objects.requireNonNull(request, NULL_REQUEST);
+		Objects.requireNonNull(response, NULL_RESPONSE);
 		try {
 			final StringWriter buffer = new StringWriter();
 			request.setAttribute(COMIC, comic);
