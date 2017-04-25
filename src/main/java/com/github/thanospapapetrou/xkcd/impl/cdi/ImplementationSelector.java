@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Qualifier;
 
 /**
@@ -16,13 +15,5 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER})
-public @interface Selector {
-	/**
-	 * Literal of @Selector annotation.
-	 * 
-	 * @author thanos
-	 */
-	public static class SelectorLiteral extends AnnotationLiteral<Selector> {
-		private static final long serialVersionUID = 0L;
-	}
+public @interface ImplementationSelector {
 }

@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import com.github.thanospapapetrou.xkcd.api.Xkcd;
 import com.github.thanospapapetrou.xkcd.api.XkcdException;
 import com.github.thanospapapetrou.xkcd.domain.Comic;
-import com.github.thanospapapetrou.xkcd.impl.cdi.Selector;
+import com.github.thanospapapetrou.xkcd.impl.cdi.ImplementationSelector;
 
 /**
  * Decorator extending an xkcd implementation with caching. Instances of this class are thread-safe, provided they are constructed with a thread-safe xkcd and cache.
@@ -51,7 +51,7 @@ public class CachingXkcd implements Xkcd {
 	 *            the cache to use for already retrieved comics
 	 */
 	@Inject
-	public CachingXkcd(@Delegate final Xkcd xkcd, @Selector final Cache cache) {
+	public CachingXkcd(@Delegate final Xkcd xkcd, @ImplementationSelector final Cache cache) {
 		this.xkcd = Objects.requireNonNull(xkcd, NULL_XKCD);
 		this.cache = cache;
 	}
