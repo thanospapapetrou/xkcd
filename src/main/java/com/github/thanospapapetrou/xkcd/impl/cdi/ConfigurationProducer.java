@@ -74,7 +74,7 @@ public class ConfigurationProducer {
 	 *            the name of the configuration parameter
 	 * @return a cache to be injected in the given injection point
 	 */
-	public Caching produceCaching(final String name) {
+	public Caching produceCaching(final String name) { // TODO remove
 		return Caching.valueOf(produceString(name));
 	}
 
@@ -99,7 +99,7 @@ public class ConfigurationProducer {
 	}
 
 	private String produceString(final String name) {
-		Objects.requireNonNull(name, NULL_NAME);
+		Objects.requireNonNull(name, NULL_NAME); // TOOD remove
 		synchronized (servletContext) {
 			return System.getProperty(name, configuration.getProperty(name, servletContext.getInitParameter(name)));
 		}

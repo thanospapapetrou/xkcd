@@ -1,10 +1,6 @@
 sonar
 check primary key restrictions on saving in JDBC and JPA
 1608
-inject caching in derby terminator instead of retrieving it
-inject caching in JDBC schema initializer instead of retrieving it
-inject connection in JDBC schema initializer instead of retrieving it
+
 add configuration log messages in configuration producer
-use injection point and name in configuration producer
-eliminate usages of CDI select()
 make produce() return generic enum instead of caching
