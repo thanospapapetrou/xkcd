@@ -22,7 +22,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import com.github.thanospapapetrou.xkcd.api.Xkcd;
@@ -36,7 +35,7 @@ import com.github.thanospapapetrou.xkcd.domain.Comic;
  */
 @Produces(MediaType.APPLICATION_XHTML_XML)
 @Provider
-public class Xhtml5ComicMessageBodyWriter implements MessageBodyWriter<Comic> {
+public class Xhtml5ComicMessageBodyWriter extends AbstractComicMessageBodyWriter {
 	private static final String COMIC = "comic";
 	private static final String CURRENT = "current";
 	private static final String JSP = "/WEB-INF/comic.jspx";
@@ -65,16 +64,6 @@ public class Xhtml5ComicMessageBodyWriter implements MessageBodyWriter<Comic> {
 	public Xhtml5ComicMessageBodyWriter(final Xkcd xkcd) {
 		this.xkcd = Objects.requireNonNull(xkcd, NULL_XKCD);
 		random = new Random();
-	}
-
-	@Override
-	public long getSize(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType) {
-		return -1L;
-	}
-
-	@Override
-	public boolean isWriteable(final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType) {
-		return true;
 	}
 
 	@Override

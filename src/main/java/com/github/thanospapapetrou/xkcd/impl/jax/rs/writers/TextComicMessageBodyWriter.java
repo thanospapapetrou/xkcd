@@ -12,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import com.github.thanospapapetrou.xkcd.domain.Comic;
@@ -24,21 +23,11 @@ import com.github.thanospapapetrou.xkcd.domain.Comic;
  */
 @Produces(MediaType.TEXT_PLAIN)
 @Provider
-public class TextComicMessageBodyWriter implements MessageBodyWriter<Comic> {
+public class TextComicMessageBodyWriter extends AbstractComicMessageBodyWriter {
 	private static final String FORMAT = "%1$s\n%2$s\n";
 	private static final String NULL_COMIC = "Comic must not be null";
 	private static final String NULL_HTTP_HEADERS = "HTTP headers must not be null";
 	private static final String NULL_OUTPUT = "Output must not be null";
-
-	@Override
-	public long getSize(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType) {
-		return -1L;
-	}
-
-	@Override
-	public boolean isWriteable(final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType) {
-		return true;
-	}
 
 	@Override
 	public void writeTo(final Comic comic, final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> httpHeaders, final OutputStream output) throws IOException {
