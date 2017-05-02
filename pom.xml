@@ -142,7 +142,7 @@
 						</artifactInstaller>
 						<!-- systemProperties>
 							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
-							<xkcd.caching>JDBC</xkcd.caching>
+							<xkcd.caching>JPA</xkcd.caching>
 							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
 						</systemProperties -->
 					</container>

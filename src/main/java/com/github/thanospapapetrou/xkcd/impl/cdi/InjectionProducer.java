@@ -98,7 +98,6 @@ public class InjectionProducer {
 	 *             if any errors occur
 	 */
 	@Produces
-	@RequestScoped
 	public Connection produceConnection(final DataSource dataSource) throws SQLException {
 		Objects.requireNonNull(dataSource, NULL_DATA_SOURCE);
 		synchronized (dataSource) {

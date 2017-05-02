@@ -12,7 +12,6 @@ import javax.enterprise.inject.spi.CDI;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.sql.DataSource;
 
 import com.github.thanospapapetrou.xkcd.domain.Comic;
 import com.github.thanospapapetrou.xkcd.impl.cdi.Caching;
@@ -44,7 +43,7 @@ public class JdbcSchemaInitializer implements ServletContextListener {
 		Objects.requireNonNull(event, NULL_EVENT);
 		if (new ConfigurationProducer(event.getServletContext()).produceCaching(Configuration.CACHING) == Caching.JDBC) { // TODO replace with injection
 			try {
-				try (final Connection connection = CDI.current().select(DataSource.class).get().getConnection()) { // TODO replace with injection
+				try (final Connection connection = CDI.current().select(Connection.class).get()) {
 					try (final PreparedStatement countComics = connection.prepareStatement(COUNT_COMICS)) {
 						try (final ResultSet comics = countComics.executeQuery()) {
 							comics.next();
