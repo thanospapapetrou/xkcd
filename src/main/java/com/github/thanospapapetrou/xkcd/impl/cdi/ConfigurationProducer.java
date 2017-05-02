@@ -61,7 +61,7 @@ public class ConfigurationProducer {
 	 *            the injection point where the URL is to be injected
 	 * @return a cache to be injected in the given injection point
 	 */
-	@Configuration("")
+	@Configuration
 	@Produces
 	public Caching produceCaching(final InjectionPoint injectionPoint) {
 		return Caching.valueOf(produceString(injectionPoint));
@@ -87,7 +87,7 @@ public class ConfigurationProducer {
 	 * @throws MalformedURLException
 	 *             if the resolved value is not a valid URL
 	 */
-	@Configuration("")
+	@Configuration
 	@Produces
 	public URL produceUrl(final InjectionPoint injectionPoint) throws MalformedURLException {
 		return new URL(produceString(injectionPoint));

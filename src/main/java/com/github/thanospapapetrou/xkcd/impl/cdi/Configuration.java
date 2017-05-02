@@ -38,5 +38,5 @@ public @interface Configuration {
 	 * @return the name of the system property or the servlet context initialization parameter to use for configuring the qualified parameter
 	 */
 	@Nonbinding
-	public String value();
+	public String value() default "";
 }
