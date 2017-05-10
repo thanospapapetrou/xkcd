@@ -19,11 +19,10 @@ import javax.sql.DataSource;
 import com.github.thanospapapetrou.xkcd.impl.cache.Cache;
 
 /**
- * Class defining CDI producer and disposer methods.
+ * Class defining static CDI producer and disposer methods.
  * 
  * @author thanos
  */
-@ApplicationScoped
 public class InjectionProducer {
 	private static final String DATA_SOURCE = "java:/comp/env/jdbc/xkcd";
 	private static final String NULL_CACHING = "Caching must not be null";
@@ -41,7 +40,7 @@ public class InjectionProducer {
 	 * @throws SQLException
 	 *             if any errors occur
 	 */
-	public void dispose(@Disposes final Connection connection) throws SQLException {
+	public static void dispose(@Disposes final Connection connection) throws SQLException {
 		Objects.requireNonNull(connection, NULL_CONNECTION);
 		if (!connection.isClosed()) {
 			connection.close();
@@ -54,7 +53,7 @@ public class InjectionProducer {
 	 * @param entityManager
 	 *            the entity manager to dispose
 	 */
-	public void dispose(@Disposes final EntityManager entityManager) {
+	public static void dispose(@Disposes final EntityManager entityManager) {
 		Objects.requireNonNull(entityManager, NULL_ENTITY_MANAGER);
 		if (entityManager.isOpen()) {
 			entityManager.close();
@@ -67,7 +66,7 @@ public class InjectionProducer {
 	 * @param entityManagerFactory
 	 *            the entity manager factory to dispose
 	 */
-	public void dispose(@Disposes final EntityManagerFactory entityManagerFactory) {
+	public static void dispose(@Disposes final EntityManagerFactory entityManagerFactory) {
 		Objects.requireNonNull(entityManagerFactory, NULL_ENTITY_MANAGER_FACTORY);
 		if (entityManagerFactory.isOpen()) {
 			entityManagerFactory.close();
@@ -83,7 +82,7 @@ public class InjectionProducer {
 	 */
 	@Produces
 	@ImplementationSelector
-	public Cache produceCache(@Configuration(Configuration.CACHING) final Caching caching) {
+	public static Cache produceCache(@Configuration(Configuration.CACHING) final Caching caching) {
 		Objects.requireNonNull(caching, NULL_CACHING);
 		return (caching.getImplementation() == null) ? null : CDI.current().select(caching.getImplementation()).get();
 	}
@@ -98,7 +97,7 @@ public class InjectionProducer {
 	 *             if any errors occur
 	 */
 	@Produces
-	public Connection produceConnection(final DataSource dataSource) throws SQLException {
+	public static Connection produceConnection(final DataSource dataSource) throws SQLException {
 		Objects.requireNonNull(dataSource, NULL_DATA_SOURCE);
 		synchronized (dataSource) {
 			return dataSource.getConnection();
@@ -114,7 +113,7 @@ public class InjectionProducer {
 	 */
 	@Produces
 	@ApplicationScoped
-	public DataSource produceDataSource() throws NamingException {
+	public static DataSource produceDataSource() throws NamingException {
 		return (DataSource) (new InitialContext().lookup(DATA_SOURCE));
 	}
 
@@ -127,7 +126,7 @@ public class InjectionProducer {
 	 */
 	@Produces
 	@RequestScoped
-	public EntityManager produceEntityManager(final EntityManagerFactory entityManagerFactory) {
+	public static EntityManager produceEntityManager(final EntityManagerFactory entityManagerFactory) {
 		Objects.requireNonNull(entityManagerFactory, NULL_ENTITY_MANAGER_FACTORY);
 		synchronized (entityManagerFactory) {
 			return entityManagerFactory.createEntityManager();
@@ -141,7 +140,7 @@ public class InjectionProducer {
 	 */
 	@Produces
 	@ApplicationScoped
-	public EntityManagerFactory produceEntityManagerFactory() {
+	public static EntityManagerFactory produceEntityManagerFactory() {
 		return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	}
 }
