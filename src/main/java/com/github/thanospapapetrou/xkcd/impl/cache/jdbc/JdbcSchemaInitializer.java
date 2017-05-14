@@ -16,7 +16,7 @@ import javax.servlet.annotation.WebListener;
 import com.github.thanospapapetrou.xkcd.domain.Comic;
 import com.github.thanospapapetrou.xkcd.impl.cdi.Caching;
 import com.github.thanospapapetrou.xkcd.impl.cdi.Configuration;
-import com.github.thanospapapetrou.xkcd.impl.cdi.ConfigurationProducer;
+import com.github.thanospapapetrou.xkcd.impl.cdi.ConfigurationResolver;
 
 /**
  * Servlet context listener to initialize JDBC schema on application startup. Instances of this class are thread-safe.
@@ -41,7 +41,7 @@ public class JdbcSchemaInitializer implements ServletContextListener {
 	@Override
 	public void contextInitialized(final ServletContextEvent event) {
 		Objects.requireNonNull(event, NULL_EVENT);
-		if (new ConfigurationProducer(event.getServletContext()).produceCaching(Configuration.CACHING) == Caching.JDBC) { // TODO replace with injection
+		if (ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.CACHING) == Caching.JDBC) {
 			try {
 				try (final Connection connection = CDI.current().select(Connection.class).get()) {
 					try (final PreparedStatement countComics = connection.prepareStatement(COUNT_COMICS)) {

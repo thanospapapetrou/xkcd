@@ -9,7 +9,7 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
 /**
- * Qualifier specifying a parameter to be configured via {@link ConfigurationProducer}. Values of these parameters are resolved against system properties, properties defined via a configuration file or servlet context initialization parameters.
+ * Qualifier specifying a parameter to be configured via {@link ConfigurationResolver}. Values of these parameters are resolved against system properties, properties defined via a configuration file or servlet context initialization parameters.
  * 
  * @author thanos
  */
@@ -20,7 +20,7 @@ public @interface Configuration {
 	/**
 	 * xkcd base URL to use.
 	 */
-	public static final String BASE_URL = "xkcd.base.url";
+	public static final String BASE_URL = "xkcd.base.url"; // TODO create enum
 
 	/**
 	 * Caching implementation to use.

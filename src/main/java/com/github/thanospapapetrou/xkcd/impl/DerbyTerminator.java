@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebListener;
 
 import com.github.thanospapapetrou.xkcd.impl.cdi.Caching;
 import com.github.thanospapapetrou.xkcd.impl.cdi.Configuration;
-import com.github.thanospapapetrou.xkcd.impl.cdi.ConfigurationProducer;
+import com.github.thanospapapetrou.xkcd.impl.cdi.ConfigurationResolver;
 
 /**
  * Servlet context listener to shutdown Derby on application shutdown. Instances of this class are thread-safe.
@@ -28,7 +28,7 @@ public class DerbyTerminator implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(final ServletContextEvent event) {
-		final Caching caching = new ConfigurationProducer(event.getServletContext()).produceCaching(Configuration.CACHING); // TODO replace with injection
+		final Caching caching = ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.CACHING);
 		if ((caching == Caching.JDBC) || (caching == Caching.JPA)) {
 			try {
 				DriverManager.getConnection(SHUTDOWN_JDBC_URL).close();
