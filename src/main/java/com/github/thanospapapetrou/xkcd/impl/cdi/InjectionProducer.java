@@ -32,6 +32,9 @@ public class InjectionProducer {
 	private static final String NULL_ENTITY_MANAGER_FACTORY = "Entity manager factory must not be null";
 	private static final String PERSISTENCE_UNIT = "xkcd";
 
+	private InjectionProducer() {
+	}
+
 	/**
 	 * Dispose a connection by closing it.
 	 * 
