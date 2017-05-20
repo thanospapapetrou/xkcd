@@ -1,6 +1,5 @@
 sonar
 check primary key restrictions on saving in JDBC and JPA
 1608
+make JDBC URL configurable
 
-add configuration log messages in configuration producer
-make produce() return generic enum instead of caching
