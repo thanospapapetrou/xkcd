@@ -18,19 +18,42 @@ import javax.inject.Qualifier;
 @Target({ElementType.METHOD, ElementType.PARAMETER})
 public @interface Configuration {
 	/**
-	 * xkcd base URL to use.
+	 * Enumeration specifying keys of configuration parameters.
+	 * 
+	 * @author thanos
 	 */
-	public static final String BASE_URL = "xkcd.base.url"; // TODO create enum
+	public static enum Key {
+		/**
+		 * xkcd base URL to use.
+		 */
+		BASE_URL("xkcd.base.url"),
 
-	/**
-	 * Caching implementation to use.
-	 */
-	public static final String CACHING = "xkcd.caching";
+		/**
+		 * Caching implementation to use.
+		 */
+		CACHING("xkcd.caching"),
 
-	/**
-	 * Configuration file to use.
-	 */
-	public static final String CONFIGURATION_FILE = "xkcd.configuration.file";
+		/**
+		 * Configuration file to use.
+		 */
+		CONFIGURATION_FILE("xkcd.configuration.file"),
+
+		/**
+		 * Default empty value.
+		 */
+		DEFAULT("");
+
+		private final String key;
+
+		private Key(final String key) {
+			this.key = key;
+		}
+
+		@Override
+		public String toString() {
+			return key;
+		}
+	}
 
 	/**
 	 * The name of the system property or the servlet context initialization parameter to use for configuring the qualified parameter.
@@ -38,5 +61,5 @@ public @interface Configuration {
 	 * @return the name of the system property or the servlet context initialization parameter to use for configuring the qualified parameter
 	 */
 	@Nonbinding
-	public String value() default "";
+	public Key value() default Key.DEFAULT;
 }

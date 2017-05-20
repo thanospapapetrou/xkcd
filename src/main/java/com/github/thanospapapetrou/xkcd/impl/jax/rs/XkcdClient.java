@@ -48,7 +48,7 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 	 *            the base URL to use for retrieving comics
 	 */
 	@Inject
-	public XkcdClient(@Configuration(Configuration.BASE_URL) final URL baseUrl) {
+	public XkcdClient(@Configuration(Configuration.Key.BASE_URL) final URL baseUrl) {
 		Objects.requireNonNull(baseUrl, NULL_BASE_URL);
 		client = ClientBuilder.newBuilder().register(new ComicMessageBodyReader(baseUrl)).build();
 		target = client.target(baseUrl.toString());

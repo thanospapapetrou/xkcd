@@ -28,7 +28,7 @@ public class DerbyTerminator implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(final ServletContextEvent event) {
-		final Caching caching = ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.CACHING);
+		final Caching caching = ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.Key.CACHING);
 		if ((caching == Caching.JDBC) || (caching == Caching.JPA)) {
 			try {
 				DriverManager.getConnection(SHUTDOWN_JDBC_URL).close();

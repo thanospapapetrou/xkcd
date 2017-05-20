@@ -85,7 +85,7 @@ public class InjectionProducer {
 	 */
 	@Produces
 	@ImplementationSelector
-	public static Cache produceCache(@Configuration(Configuration.CACHING) final Caching caching) {
+	public static Cache produceCache(@Configuration(Configuration.Key.CACHING) final Caching caching) {
 		Objects.requireNonNull(caching, NULL_CACHING);
 		return (caching.getImplementation() == null) ? null : CDI.current().select(caching.getImplementation()).get();
 	}

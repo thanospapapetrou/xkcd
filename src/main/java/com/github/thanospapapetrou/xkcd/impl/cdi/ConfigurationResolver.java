@@ -32,7 +32,7 @@ public class ConfigurationResolver implements ServletContextListener {
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationResolver.class.getCanonicalName());
 	private static final String NULL_EVENT = "Event must not be null";
 	private static final String NULL_INJECTION_POINT = "Injection point must not be null";
-	private static final String NULL_NAME = "Name must not be null";
+	private static final String NULL_KEY = "Key must not be null";
 	private static final String NULL_SERVLET_CONTEXT = "Servlet context must not be null";
 	private static final String SET_TO = "%1$s set to %2$s";
 
@@ -57,12 +57,12 @@ public class ConfigurationResolver implements ServletContextListener {
 	 * 
 	 * @param servletContext
 	 *            the servlet context to use for resolving configuration parameter value
-	 * @param name
-	 *            the name of the configuration parameter
+	 * @param key
+	 *            the key of the configuration parameter
 	 * @return the configuration parameter value
 	 */
-	public static Caching resolveCaching(final ServletContext servletContext, final String name) {
-		final String value = resolveString(servletContext, name);
+	public static Caching resolveCaching(final ServletContext servletContext, final Configuration.Key key) {
+		final String value = resolveString(servletContext, key);
 		return (value == null) ? null : Caching.valueOf(value);
 	}
 
@@ -85,10 +85,10 @@ public class ConfigurationResolver implements ServletContextListener {
 		return (value == null) ? null : new URL(value);
 	}
 
-	private static String resolveString(final ServletContext servletContext, final String name) {
+	private static String resolveString(final ServletContext servletContext, final Configuration.Key key) {
 		Objects.requireNonNull(servletContext, NULL_SERVLET_CONTEXT);
-		Objects.requireNonNull(name, NULL_NAME);
-		final Object value = servletContext.getAttribute(name);
+		Objects.requireNonNull(key, NULL_KEY);
+		final Object value = servletContext.getAttribute(key.toString());
 		return (value == null) ? null : value.toString();
 	}
 
@@ -101,7 +101,7 @@ public class ConfigurationResolver implements ServletContextListener {
 	public void contextInitialized(final ServletContextEvent event) {
 		Objects.requireNonNull(event, NULL_EVENT);
 		final Properties configuration = new Properties();
-		final String configurationFile = System.getProperty(Configuration.CONFIGURATION_FILE);
+		final String configurationFile = System.getProperty(Configuration.Key.CONFIGURATION_FILE.toString());
 		if (configurationFile != null) {
 			try (final FileInputStream input = new FileInputStream(new File(configurationFile))) {
 				configuration.load(input);

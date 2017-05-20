@@ -41,7 +41,7 @@ public class JdbcSchemaInitializer implements ServletContextListener {
 	@Override
 	public void contextInitialized(final ServletContextEvent event) {
 		Objects.requireNonNull(event, NULL_EVENT);
-		if (ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.CACHING) == Caching.JDBC) {
+		if (ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.Key.CACHING) == Caching.JDBC) {
 			try {
 				try (final Connection connection = CDI.current().select(Connection.class).get()) {
 					try (final PreparedStatement countComics = connection.prepareStatement(COUNT_COMICS)) {
