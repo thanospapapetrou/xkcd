@@ -22,7 +22,7 @@ public @interface Configuration {
 	 * 
 	 * @author thanos
 	 */
-	public static enum Key {
+	public enum Key {
 		/**
 		 * xkcd base URL to use.
 		 */
