@@ -1,6 +1,7 @@
 package com.github.thanospapapetrou.xkcd.impl.cache.jdbc;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,6 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.enterprise.inject.spi.CDI;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -43,7 +43,8 @@ public class JdbcSchemaInitializer implements ServletContextListener {
 		Objects.requireNonNull(event, NULL_EVENT);
 		if (ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.Key.CACHING) == Caching.JDBC) {
 			try {
-				try (final Connection connection = CDI.current().select(Connection.class).get()) {
+				Class.forName(ConfigurationResolver.resolveString(event.getServletContext(), Configuration.Key.JDBC_DRIVER)).newInstance();
+				try (final Connection connection = DriverManager.getConnection(ConfigurationResolver.resolveString(event.getServletContext(), Configuration.Key.JDBC_URL))) {
 					try (final PreparedStatement countComics = connection.prepareStatement(COUNT_COMICS)) {
 						try (final ResultSet comics = countComics.executeQuery()) {
 							comics.next();
@@ -58,7 +59,7 @@ public class JdbcSchemaInitializer implements ServletContextListener {
 						}
 					}
 				}
-			} catch (final SQLException e) {
+			} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
 				LOGGER.log(Level.WARNING, ERROR_INITIALIZING_SCHEMA, e);
 			}
 		}

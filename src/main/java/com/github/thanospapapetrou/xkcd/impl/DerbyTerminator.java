@@ -29,9 +29,13 @@ public class DerbyTerminator implements ServletContextListener {
 	@Override
 	public void contextDestroyed(final ServletContextEvent event) {
 		final Caching caching = ConfigurationResolver.resolveCaching(event.getServletContext(), Configuration.Key.CACHING);
+		final String jdbcDriver = ConfigurationResolver.resolveString(event.getServletContext(), Configuration.Key.JDBC_DRIVER);
 		if ((caching == Caching.JDBC) || (caching == Caching.JPA)) {
 			try {
+				Class.forName(jdbcDriver).newInstance();
 				DriverManager.getConnection(SHUTDOWN_JDBC_URL).close();
+			} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+				LOGGER.log(Level.WARNING, ERROR_SHUTTING_DOWN_DERBY, e);
 			} catch (final SQLException e) {
 				if (e.getSQLState().equals(SHUTDOWN_SQL_STATE)) {
 					LOGGER.info(DERBY_SHUT_DOWN);

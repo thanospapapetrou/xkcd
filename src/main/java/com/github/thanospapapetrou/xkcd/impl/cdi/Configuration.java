@@ -41,7 +41,17 @@ public @interface Configuration {
 		/**
 		 * Default empty value.
 		 */
-		DEFAULT("");
+		DEFAULT(""),
+
+		/**
+		 * JDBC driver to use.
+		 */
+		JDBC_DRIVER("xkcd.jdbc.driver"),
+
+		/**
+		 * JDBC URL to use.
+		 */
+		JDBC_URL("xkcd.jdbc.url");
 
 		private final String key;
 

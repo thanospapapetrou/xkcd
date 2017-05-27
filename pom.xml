@@ -144,6 +144,8 @@
 							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
 							<xkcd.caching>JPA</xkcd.caching>
 							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
+							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
+							<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
 						</systemProperties -->
 					</container>
 					<configuration>

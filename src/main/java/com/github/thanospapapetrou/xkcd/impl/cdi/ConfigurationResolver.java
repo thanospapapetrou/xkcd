@@ -67,6 +67,38 @@ public class ConfigurationResolver implements ServletContextListener {
 	}
 
 	/**
+	 * Resolve a {@link String} configuration parameter value.
+	 * 
+	 * @param servletContext
+	 *            the servlet context to use for resolving configuration parameter value
+	 * @param injectionPoint
+	 *            the injection point where the configuration parameter value is to be injected
+	 * @return the configuration parameter value
+	 */
+	@Configuration
+	@Produces
+	public static String resolveString(final ServletContext servletContext, final InjectionPoint injectionPoint) {
+		Objects.requireNonNull(injectionPoint, NULL_INJECTION_POINT);
+		return resolveString(servletContext, injectionPoint.getAnnotated().getAnnotation(Configuration.class).value());
+	}
+
+	/**
+	 * Resolve a {@link String} configuration parameter value.
+	 * 
+	 * @param servletContext
+	 *            the servlet context to use for resolving configuration parameter value
+	 * @param key
+	 *            the key of the configuration parameter
+	 * @return the configuration parameter value
+	 */
+	public static String resolveString(final ServletContext servletContext, final Configuration.Key key) {
+		Objects.requireNonNull(servletContext, NULL_SERVLET_CONTEXT);
+		Objects.requireNonNull(key, NULL_KEY);
+		final Object value = servletContext.getAttribute(key.toString());
+		return (value == null) ? null : value.toString();
+	}
+
+	/**
 	 * Resolve a {@link URL} configuration parameter value.
 	 * 
 	 * @param servletContext
@@ -83,13 +115,6 @@ public class ConfigurationResolver implements ServletContextListener {
 		Objects.requireNonNull(injectionPoint, NULL_INJECTION_POINT);
 		final String value = resolveString(servletContext, injectionPoint.getAnnotated().getAnnotation(Configuration.class).value());
 		return (value == null) ? null : new URL(value);
-	}
-
-	private static String resolveString(final ServletContext servletContext, final Configuration.Key key) {
-		Objects.requireNonNull(servletContext, NULL_SERVLET_CONTEXT);
-		Objects.requireNonNull(key, NULL_KEY);
-		final Object value = servletContext.getAttribute(key.toString());
-		return (value == null) ? null : value.toString();
 	}
 
 	@Override

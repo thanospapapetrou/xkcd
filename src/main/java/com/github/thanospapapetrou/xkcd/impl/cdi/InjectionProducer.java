@@ -1,7 +1,10 @@
 package com.github.thanospapapetrou.xkcd.impl.cdi;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -9,12 +12,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.CDI;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.sql.DataSource;
 
 import com.github.thanospapapetrou.xkcd.impl.cache.Cache;
 
@@ -24,12 +24,14 @@ import com.github.thanospapapetrou.xkcd.impl.cache.Cache;
  * @author thanos
  */
 public class InjectionProducer {
-	private static final String DATA_SOURCE = "java:/comp/env/jdbc/xkcd";
+	private static final String JAVAX_PERSISTENCE_JDBC_DRIVER = "javax.persistence.jdbc.driver";
+	private static final String JAVAX_PERSISTENCE_JDBC_URL = "javax.persistence.jdbc.url";
 	private static final String NULL_CACHING = "Caching must not be null";
 	private static final String NULL_CONNECTION = "Connection must not be null";
-	private static final String NULL_DATA_SOURCE = "Data source must not be null";
 	private static final String NULL_ENTITY_MANAGER = "Entity manager must not be null";
 	private static final String NULL_ENTITY_MANAGER_FACTORY = "Entity manager factory must not be null";
+	private static final String NULL_JDBC_DRIVER = "JDBC driver must not be null";
+	private static final String NULL_JDBC_URL = "JDBC URL must not be null";
 	private static final String PERSISTENCE_UNIT = "xkcd";
 
 	private InjectionProducer() {
@@ -93,31 +95,26 @@ public class InjectionProducer {
 	/**
 	 * Produce a connection.
 	 * 
-	 * @param dataSource
-	 *            the data source to use to produce the connection
+	 * @param jdbcDriver
+	 *            the JDBC driver to use to produce the connection
+	 * @param jdbcUrl
+	 *            the JDBC URL to use to produce the connection
 	 * @return a connection
+	 * @throws ClassNotFoundException
+	 *             if any errors occur while loading the JDBC driver
+	 * @throws InstantiationException
+	 *             if any errors occur while loading the JDBC driver
+	 * @throws IllegalAccessException
+	 *             if any errors occur while loading the JDBC driver
 	 * @throws SQLException
-	 *             if any errors occur
+	 *             if any errors occur while producing the connection
 	 */
 	@Produces
-	public static Connection produceConnection(final DataSource dataSource) throws SQLException {
-		Objects.requireNonNull(dataSource, NULL_DATA_SOURCE);
-		synchronized (dataSource) {
-			return dataSource.getConnection();
-		}
-	}
-
-	/**
-	 * Produce a data source.
-	 * 
-	 * @return a data source
-	 * @throws NamingException
-	 *             if any errors occur
-	 */
-	@Produces
-	@ApplicationScoped
-	public static DataSource produceDataSource() throws NamingException {
-		return (DataSource) (new InitialContext().lookup(DATA_SOURCE));
+	public static Connection produceConnection(@Configuration(Configuration.Key.JDBC_DRIVER) final String jdbcDriver, @Configuration(Configuration.Key.JDBC_URL) final String jdbcUrl) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+		Objects.requireNonNull(jdbcDriver, NULL_JDBC_DRIVER);
+		Objects.requireNonNull(jdbcUrl, NULL_JDBC_URL);
+		Class.forName(jdbcDriver).newInstance();
+		return DriverManager.getConnection(jdbcUrl);
 	}
 
 	/**
@@ -139,11 +136,20 @@ public class InjectionProducer {
 	/**
 	 * Produce an entity manager factory.
 	 * 
+	 * @param jdbcDriver
+	 *            the JDBC driver to use
+	 * @param jdbcUrl
+	 *            the JDBC URL to use
 	 * @return an entity manager factory
 	 */
 	@Produces
 	@ApplicationScoped
-	public static EntityManagerFactory produceEntityManagerFactory() {
-		return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	public static EntityManagerFactory produceEntityManagerFactory(@Configuration(Configuration.Key.JDBC_DRIVER) final String jdbcDriver, @Configuration(Configuration.Key.JDBC_URL) final String jdbcUrl) {
+		Objects.requireNonNull(jdbcDriver, NULL_JDBC_DRIVER);
+		Objects.requireNonNull(jdbcUrl, NULL_JDBC_URL);
+		final Map<String, String> properties = new HashMap<String, String>();
+		properties.put(JAVAX_PERSISTENCE_JDBC_DRIVER, jdbcDriver);
+		properties.put(JAVAX_PERSISTENCE_JDBC_URL, jdbcUrl);
+		return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT, properties);
 	}
 }
