@@ -46,21 +46,6 @@ public class JpaCache implements Cache {
 	}
 
 	@Override
-	public void save(final Comic comic) throws XkcdException {
-		Objects.requireNonNull(comic, NULL_COMIC);
-		try {
-			manager.getTransaction().begin();
-			manager.persist(comic);
-			manager.getTransaction().commit();
-		} catch (final PersistenceException e) {
-			if (manager.getTransaction().isActive()) {
-				manager.getTransaction().rollback();
-			}
-			throw new XkcdException(String.format(ERROR_SAVING_COMIC, comic.getId()), e);
-		}
-	}
-
-	@Override
 	public Comic load(int id) throws XkcdException {
 		try {
 			manager.getTransaction().begin();
@@ -87,6 +72,21 @@ public class JpaCache implements Cache {
 				manager.getTransaction().rollback();
 			}
 			throw new XkcdException(ERROR_LOADING_LATEST_COMIC, e);
+		}
+	}
+
+	@Override
+	public void save(final Comic comic) throws XkcdException {
+		Objects.requireNonNull(comic, NULL_COMIC);
+		try {
+			manager.getTransaction().begin();
+			manager.persist(comic);
+			manager.getTransaction().commit();
+		} catch (final PersistenceException e) {
+			if (manager.getTransaction().isActive()) {
+				manager.getTransaction().rollback();
+			}
+			throw new XkcdException(String.format(ERROR_SAVING_COMIC, comic.getId()), e);
 		}
 	}
 }
