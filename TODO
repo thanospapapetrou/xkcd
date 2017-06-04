@@ -1,5 +1,5 @@
-sonar
+add sonar plugin and check with sonar
 check primary key restrictions on saving in JDBC and JPA
 1608
-make JDBC URL configurable
+change derby terminator to embedded derby terminator
 
