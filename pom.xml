@@ -31,6 +31,7 @@
 	<properties>
 		<cargo.version>1.6.2</cargo.version>
 		<cdi.version>1.2</cdi.version>
+		<checkstyle.version>2.17</checkstyle.version>
 		<compiler.version>3.6.1</compiler.version>
 		<derby.version>10.12.1.1</derby.version>
 		<eclipselink.version>2.6.4</eclipselink.version>
@@ -137,6 +138,27 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${checkstyle.version}</version>
+				<executions>
+					<execution>
+						<id>checkstyle-checkstyle</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>checkstyle</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>checkstyle-check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
