@@ -44,7 +44,9 @@
 		<jersey.version>2.25.1</jersey.version>
 		<jpa.version>2.1.1</jpa.version>
 		<json.version>1.0</json.version>
+		<jxr.version>2.5</jxr.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.info.reports.version>2.9</project.info.reports.version>
 		<servlet.version>3.1.0</servlet.version>
 		<sonar.version>3.0.2</sonar.version>
 		<source.version>1.7</source.version>
@@ -285,5 +287,22 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${jxr.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${project.info.reports.version}</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
 
