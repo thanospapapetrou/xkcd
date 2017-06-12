@@ -23,7 +23,7 @@ import com.github.thanospapapetrou.xkcd.impl.cache.Cache;
  * 
  * @author thanos
  */
-public class InjectionProducer {
+public final class InjectionProducer {
 	private static final String JAVAX_PERSISTENCE_JDBC_DRIVER = "javax.persistence.jdbc.driver";
 	private static final String JAVAX_PERSISTENCE_JDBC_URL = "javax.persistence.jdbc.url";
 	private static final String NULL_CACHING = "Caching must not be null";

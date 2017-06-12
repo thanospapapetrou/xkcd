@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
  * 
  * @author thanos
  */
-public class Functions {
+public final class Functions {
 	private Functions() {
 	}
 

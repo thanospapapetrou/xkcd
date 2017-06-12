@@ -46,7 +46,7 @@ public class JpaCache implements Cache {
 	}
 
 	@Override
-	public Comic load(int id) throws XkcdException {
+	public Comic load(final int id) throws XkcdException {
 		try {
 			manager.getTransaction().begin();
 			final Comic comic = manager.find(Comic.class, id, LockModeType.PESSIMISTIC_READ);
