@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
- 	<groupId>com.github.thanospapapetrou</groupId>
+	<groupId>com.github.thanospapapetrou</groupId>
 	<artifactId>xkcd</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -26,17 +26,19 @@
 				<role>developer</role>
 			</roles>
 			<timezone>Europe/Athens</timezone>
-		 </developer>
-    </developers>
+		</developer>
+	</developers>
 	<properties>
 		<cargo.version>1.6.2</cargo.version>
 		<cdi.version>1.2</cdi.version>
 		<checkstyle.version>2.17</checkstyle.version>
+		<codenarc.version>0.22-1</codenarc.version>
 		<compiler.version>3.6.1</compiler.version>
 		<derby.version>10.12.1.1</derby.version>
 		<eclipselink.version>2.6.4</eclipselink.version>
 		<glassfish-json.version>1.0.4</glassfish-json.version>
 		<gmavenplus.version>1.5</gmavenplus.version>
+		<gmetrics.version>0.7</gmetrics.version>
 		<groovy.version>2.4.11</groovy.version>
 		<jacoco.version>0.7.9</jacoco.version>
 		<javadoc.version>2.10.4</javadoc.version>
@@ -197,10 +199,10 @@
 							<version>${tomcat.version}</version>
 						</artifactInstaller>
 						<!-- systemProperties>
-							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
+							<xkcd.base.url>https://xkcd.com/</xkcd.base.url> 
 							<xkcd.caching>JPA</xkcd.caching>
-							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
-							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
+							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file> 
+							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver> 
 							<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
 						</systemProperties -->
 					</container>
@@ -235,6 +237,33 @@
 					<execution>
 						<goals>
 							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>codenarc-maven-plugin</artifactId>
+				<version>${codenarc.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.gmetrics</groupId>
+						<artifactId>GMetrics</artifactId>
+						<version>${gmetrics.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<sourceDirectory>${project.basedir}/src/test/groovy</sourceDirectory>
+					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
+					<maxPriority1Violations>0</maxPriority1Violations>
+					<maxPriority2Violations>0</maxPriority2Violations>
+					<maxPriority3Violations>0</maxPriority3Violations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>codenarc</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -311,7 +340,18 @@
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>codenarc-maven-plugin</artifactId>
+				<version>${codenarc.version}</version>
+				<configuration>
+					<sourceDirectory>${project.basedir}/src/test/groovy</sourceDirectory>
+					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
+					<maxPriority1Violations>0</maxPriority1Violations>
+					<maxPriority2Violations>0</maxPriority2Violations>
+					<maxPriority3Violations>0</maxPriority3Violations>
+				</configuration>
+			</plugin>
 		</plugins>
 	</reporting>
 </project>
-
