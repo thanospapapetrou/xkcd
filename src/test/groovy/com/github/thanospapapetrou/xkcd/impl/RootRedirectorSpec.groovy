@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse
 import spock.lang.Specification
 
 class RootRedirectorSpec extends Specification {
-	def 'Accessing root path redirects to current comic'() {
+	void 'Accessing root path redirects to current comic'() {
 		given: 'an HTTP servlet response'
 			HttpServletResponse response = Mock(HttpServletResponse)
 		when: 'an HTTP GET request is performed on root path of the web application'
