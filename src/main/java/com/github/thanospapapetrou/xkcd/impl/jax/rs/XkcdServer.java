@@ -60,10 +60,6 @@ public class XkcdServer implements Xkcd {
 	@Path("/current")
 	@Produces({MediaType.APPLICATION_XHTML_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
 	public Comic getCurrentComic() throws XkcdException {
-		final Comic comic = xkcd.getCurrentComic();
-		if (comic == null) {
-			throw new NotFoundException();
-		}
-		return comic;
+		return xkcd.getCurrentComic();
 	}
 }

@@ -4,10 +4,10 @@ import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util.logging.Logger
 
+import spock.lang.Specification
+
 import com.github.thanospapapetrou.xkcd.api.Xkcd
 import com.github.thanospapapetrou.xkcd.domain.Comic
-
-import spock.lang.Specification
 
 class LoggingXkcdSpec extends Specification {
 	private static final String LOGGER = 'LOGGER'
