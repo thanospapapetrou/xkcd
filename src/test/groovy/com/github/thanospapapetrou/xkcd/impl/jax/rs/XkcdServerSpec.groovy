@@ -16,7 +16,7 @@ class XkcdServerSpec extends Specification {
 		xkcdServer = new XkcdServer(Mock(Xkcd))
 	}
 
-	void 'retrieving an existing comic is delegated to the underlying xkcd'() {
+	void 'Retrieving an existing comic is delegated to the underlying xkcd'() {
 		given: 'a comic'
 			Comic comic = Mock(Comic)
 		when: 'comic is retrieved'
@@ -29,7 +29,7 @@ class XkcdServerSpec extends Specification {
 			result == comic
 	}
 
-	void 'retrieving a non existing comic is delegated to the underlying xkcd and a not found exception is thrown'() {
+	void 'Retrieving a non existing comic is delegated to the underlying xkcd and a not found exception is thrown'() {
 		when: 'comic is retrieved'
 			xkcdServer.getComic(ID)
 		then: 'retrieval is delegated to the underlying xkcd'
@@ -40,7 +40,7 @@ class XkcdServerSpec extends Specification {
 			0 * _
 	}
 
-	void 'retrieving current comic is delegated to the underlying xkcd'() {
+	void 'Retrieving current comic is delegated to the underlying xkcd'() {
 		given: 'a comic'
 			Comic comic = Mock(Comic)
 		when: 'current comic is retrieved'

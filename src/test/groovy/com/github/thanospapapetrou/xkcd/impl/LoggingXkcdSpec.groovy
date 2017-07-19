@@ -10,14 +10,13 @@ import com.github.thanospapapetrou.xkcd.api.Xkcd
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
 class LoggingXkcdSpec extends Specification {
+	private static final int ID = 1024
 	private static final String LOGGER = 'LOGGER'
 	private static final String MODIFIERS = 'modifiers'
 
-	private static final int ID = 1024
-
 	private LoggingXkcd loggingXkcd
 
-	void setup() {
+	void setup() { // TODO improve
 		Field logger = LoggingXkcd.getDeclaredField(LOGGER)
 		logger.accessible = true
 		Field modifiers = Field.getDeclaredField(MODIFIERS)
@@ -27,7 +26,7 @@ class LoggingXkcdSpec extends Specification {
 		loggingXkcd = new LoggingXkcd(Mock(Xkcd))
 	}
 
-	void 'retrieving an existing comic is delegated to the underlying xkcd and a comic retrieved message is logged as info'() {
+	void 'Retrieving an existing comic is delegated to the underlying xkcd and a comic retrieved message is logged as info'() {
 		given: 'a comic'
 			Comic comic = Mock(Comic)
 		when: 'comic is retrieved'
@@ -42,7 +41,7 @@ class LoggingXkcdSpec extends Specification {
 			result == comic
 	}
 
-	void 'retrieving a non existing comic is delegated to the underlying xkcd and a comic not found message is logged as info'() {
+	void 'Retrieving a non existing comic is delegated to the underlying xkcd and a comic not found message is logged as info'() {
 		when: 'comic is retrieved'
 			Comic result = loggingXkcd.getComic(ID)
 		then: 'retrieval is delegated to the underlying xkcd'
@@ -55,7 +54,7 @@ class LoggingXkcdSpec extends Specification {
 			result == null
 	}
 
-	void 'retrieving current comic is delegated to the underlying xkcd and a current comic retrieved message is logged as info'() {
+	void 'Retrieving current comic is delegated to the underlying xkcd and a current comic retrieved message is logged as info'() {
 		given: 'a comic'
 			Comic comic = Mock(Comic)
 		when: 'current comic is retrieved'
