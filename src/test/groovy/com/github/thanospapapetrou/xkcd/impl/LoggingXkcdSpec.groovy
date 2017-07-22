@@ -1,28 +1,21 @@
 package com.github.thanospapapetrou.xkcd.impl
 
-import java.lang.reflect.Field
-import java.lang.reflect.Modifier
 import java.util.logging.Logger
 
 import spock.lang.Specification
 
+import com.github.thanospapapetrou.xkcd.SetterUtils
 import com.github.thanospapapetrou.xkcd.api.Xkcd
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class LoggingXkcdSpec extends Specification {
+class LoggingXkcdSpec extends Specification implements SetterUtils {
 	private static final int ID = 1024
 	private static final String LOGGER = 'LOGGER'
-	private static final String MODIFIERS = 'modifiers'
 
 	private LoggingXkcd loggingXkcd
 
-	void setup() { // TODO improve
-		Field logger = LoggingXkcd.getDeclaredField(LOGGER)
-		logger.accessible = true
-		Field modifiers = Field.getDeclaredField(MODIFIERS)
-		modifiers.accessible = true
-		modifiers.setInt(logger, logger.modifiers & (~Modifier.FINAL))
-		logger.set(null, Mock(Logger))
+	void setup() {
+		setStaticFinal(LoggingXkcd, LOGGER, Mock(Logger))
 		loggingXkcd = new LoggingXkcd(Mock(Xkcd))
 	}
 

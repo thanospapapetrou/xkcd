@@ -27,6 +27,7 @@ import com.github.thanospapapetrou.xkcd.impl.cdi.Configuration;
  */
 @RequestScoped
 public class XkcdClient implements AutoCloseable, Xkcd {
+	private static final String APPLICATION_JSON_CHARSET_UTF_8 = MediaType.APPLICATION_JSON_TYPE.withCharset(StandardCharsets.UTF_8.name()).toString();
 	private static final String COMIC_NOT_FOUND = "Comic %1$d not found at %2$s";
 	private static final String COMIC_RETRIEVED_FROM = "Comic %1$d retrieved from %2$s";
 	private static final String CURRENT_COMIC_RETRIEVED_FROM = "Current comic (%1$d) retrieved from %2$s";
@@ -70,7 +71,7 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 	public Comic getComic(final int id) throws XkcdException {
 		final WebTarget target = this.target.path(GET_COMIC).resolveTemplate(ID, id);
 		try {
-			final Comic comic = target.request(MediaType.APPLICATION_JSON_TYPE.withCharset(StandardCharsets.UTF_8.name()).toString()).buildGet().invoke(Comic.class);
+			final Comic comic = target.request(APPLICATION_JSON_CHARSET_UTF_8).buildGet().invoke(Comic.class);
 			LOGGER.fine(String.format(COMIC_RETRIEVED_FROM, id, target.getUri()));
 			return comic;
 		} catch (final NotFoundException e) {
@@ -85,7 +86,7 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 	public Comic getCurrentComic() throws XkcdException {
 		final WebTarget target = this.target.path(GET_CURRENT_COMIC);
 		try {
-			final Comic comic = target.request(MediaType.APPLICATION_JSON_TYPE.withCharset(StandardCharsets.UTF_8.name()).toString()).buildGet().invoke(Comic.class);
+			final Comic comic = target.request(APPLICATION_JSON_CHARSET_UTF_8).buildGet().invoke(Comic.class);
 			LOGGER.fine(String.format(CURRENT_COMIC_RETRIEVED_FROM, comic.getId(), target.getUri()));
 			return comic;
 		} catch (final WebApplicationException e) {
