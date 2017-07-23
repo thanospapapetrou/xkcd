@@ -15,11 +15,12 @@ import com.github.thanospapapetrou.xkcd.api.XkcdException
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
 class XkcdClientSpec extends Specification implements SetterUtils {
+	private static final URL BASE_URL = new URL('http://www.example.org/')
 	private static final String CLIENT = 'client'
 	private static final int ID = 1234
 	private static final String LOGGER = 'LOGGER'
 	private static final String TARGET = 'target'
-	private static final URI URI = new URI('http://www.example.org/')
+	private static final URI URI = BASE_URL.toURI()
 
 	private XkcdClient xkcd
 
@@ -28,6 +29,19 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 		xkcd = new XkcdClient()
 		setFinal(xkcd, CLIENT, Mock(Client))
 		setFinal(xkcd, TARGET, Mock(WebTarget))
+	}
+
+	void 'Constructing an xkcd client using a base URL'() {
+		when: 'an xkcd client is constructed using a base URL'
+			XkcdClient client = new XkcdClient(BASE_URL)
+		then: 'the underlying JAX-RS client has only one comic message body reader registered'
+			client.client.configuration.instances.size() == 1
+			Object object = client.client.configuration.instances.toList()[0]
+			object.class == ComicMessageBodyReader
+		and: 'the the comic message body reader base URL is the base URL used to construct the xkcd client'
+			object.baseUrl == BASE_URL
+		and: 'the underlying JAX-RS target URI is the base URL used to construct the xkcd client '
+			client.target.uri == BASE_URL.toURI()
 	}
 
 	void 'Closing an xkcd client closes the underlying JAX-RS client'() {

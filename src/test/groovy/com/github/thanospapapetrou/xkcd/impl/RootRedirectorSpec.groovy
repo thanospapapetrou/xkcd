@@ -14,7 +14,7 @@ class RootRedirectorSpec extends Specification {
 	void 'Accessing root path redirects to current comic'() {
 		given: 'an HTTP servlet response'
 			HttpServletResponse response = Mock(HttpServletResponse)
-		when: 'an HTTP GET request is performed on root path of the web application'
+		when: 'an HTTP GET request is performed on web application root path'
 			rootRedirector.doGet(null, response)
 		then: 'a redirection to current comic is sent as response'
 			1 * response.sendRedirect(RootRedirector.CURRENT_COMIC)
