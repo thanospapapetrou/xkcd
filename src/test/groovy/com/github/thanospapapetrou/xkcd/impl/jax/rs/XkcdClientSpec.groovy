@@ -17,7 +17,7 @@ import com.github.thanospapapetrou.xkcd.domain.Comic
 class XkcdClientSpec extends Specification implements SetterUtils {
 	private static final URL BASE_URL = new URL('http://www.example.org/')
 	private static final String CLIENT = 'client'
-	private static final int ID = 1234
+	private static final int ID = 1024
 	private static final String LOGGER = 'LOGGER'
 	private static final String TARGET = 'target'
 	private static final URI URI = BASE_URL.toURI()

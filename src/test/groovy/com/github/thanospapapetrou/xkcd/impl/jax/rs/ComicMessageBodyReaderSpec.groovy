@@ -65,7 +65,7 @@ class ComicMessageBodyReaderSpec extends Specification { // TODO add scenarios f
 			Comic result = comicMessageBodyReader.readFrom(null, null, null, mediaType, null, input)
 		then: 'no interactions happen'
 			0 * _
-		and: ''
+		and: 'the comic read is returned'
 			with (result) {
 				id == ID
 				date == DATE
