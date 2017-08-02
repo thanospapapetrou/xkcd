@@ -33,7 +33,7 @@ class JsonComicMessageBodyWriterSpec extends Specification {
 			Comic comic = Mock(Comic)
 		and: 'a date'
 			Date date = Mock(Date)
-		when: 'converting a comic'
+		when: 'comic is converted to JSON'
 			JsonObject result = JsonComicMessageBodyWriter.convertComic(comic)
 		then: 'comic ID is retrieved'
 			1 * comic.id >> ID

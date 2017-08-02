@@ -72,8 +72,6 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		calendar.set(Calendar.ZONE_OFFSET, 0);
-		calendar.set(Calendar.DST_OFFSET, 0);
 		return calendar.getTime();
 	}
 
@@ -87,10 +85,6 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 		return StandardCharsets.UTF_8;
 	}
 
-	private static JsonObject readJson(final InputStream input, final Charset charset) {
-		return Json.createReader(new InputStreamReader(input, charset)).readObject();
-	}
-
 	@Override
 	public boolean isReadable(final Class<?> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType) {
 		return getCharset(mediaType) != null;
@@ -99,7 +93,7 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 	@Override
 	public Comic readFrom(final Class<Comic> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, String> httpHeaders, final InputStream input) throws IOException {
 		Objects.requireNonNull(input, NULL_INPUT);
-		final JsonObject json = readJson(input, getCharset(mediaType));
+		final JsonObject json = Json.createReader(new InputStreamReader(input, getCharset(mediaType))).readObject();
 		return new Comic(json.getInt(ID), convertDate(Integer.parseInt(json.getString(YEAR)), Integer.parseInt(json.getString(MONTH)) - 1, Integer.parseInt(json.getString(DAY))), json.getString(TITLE), json.getString(SAFE_TITLE), new URL(json.getString(IMAGE)), json.getString(ALTERNATE), json.getString(TRANSCRIPT), json.getString(LINK).isEmpty() ? null : new URL(baseUrl, json.getString(LINK)), json.getString(NEWS));
 	}
 }
