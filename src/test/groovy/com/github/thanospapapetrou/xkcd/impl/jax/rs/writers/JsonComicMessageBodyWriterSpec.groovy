@@ -11,7 +11,7 @@ import spock.lang.Specification
 
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class JsonComicMessageBodyWriterSpec extends Specification {
+class JsonComicMessageBodyWriterSpec extends Specification { // TODO improve testability
 	private static final String ALTERNATE = 'Alternate'
 	private static final int ID = 1024
 	private static final URL IMAGE = new URL('http://www.example.org/image')

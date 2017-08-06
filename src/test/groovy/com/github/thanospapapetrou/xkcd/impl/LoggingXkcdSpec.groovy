@@ -8,7 +8,7 @@ import com.github.thanospapapetrou.xkcd.SetterUtils
 import com.github.thanospapapetrou.xkcd.api.Xkcd
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class LoggingXkcdSpec extends Specification implements SetterUtils {
+class LoggingXkcdSpec extends Specification implements SetterUtils { // TODO improve testability
 	private static final int ID = 1024
 	private static final String LOGGER = 'LOGGER'
 

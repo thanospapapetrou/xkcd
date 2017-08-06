@@ -14,7 +14,7 @@ import com.github.thanospapapetrou.xkcd.SetterUtils
 import com.github.thanospapapetrou.xkcd.api.XkcdException
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class XkcdClientSpec extends Specification implements SetterUtils {
+class XkcdClientSpec extends Specification implements SetterUtils { // TODO improve testability
 	private static final URL BASE_URL = new URL('http://www.example.org/')
 	private static final String CLIENT = 'client'
 	private static final int ID = 1024

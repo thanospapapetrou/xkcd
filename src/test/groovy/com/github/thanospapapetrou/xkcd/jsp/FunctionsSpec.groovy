@@ -2,14 +2,14 @@ package com.github.thanospapapetrou.xkcd.jsp
 
 import javax.ws.rs.core.Response
 
-import org.spockframework.compiler.model.Spec
+import spock.lang.Specification
 
-class FunctionsSpec extends Spec {
+class FunctionsSpec extends Specification {
 	void 'Retrieving HTTP reason phrase corresponding to an HTTP status code'() {
 		when: 'HTTP reason phrase corresponding to an HTTP status code is retrieved'
 			String result = Functions.httpReasonPhrase(statusCode)
 		then: 'the expected reason phrase is returned'
-			result == reason
+			result == reasonPhrase
 		where:
 			status << Response.Status.values()
 			statusCode = status.statusCode

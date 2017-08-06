@@ -12,7 +12,7 @@ import spock.lang.Unroll
 
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class ComicMessageBodyReaderSpec extends Specification {
+class ComicMessageBodyReaderSpec extends Specification { // TODO improve testability
 	private static final String ABSOLUTE = 'absolute'
 	private static final String ALTERNATE = 'Alternate'
 	private static final URL BASE_URL = new URL('http://www.example.org/')
