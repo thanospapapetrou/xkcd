@@ -8,15 +8,13 @@ import com.github.thanospapapetrou.xkcd.SetterUtils
 import com.github.thanospapapetrou.xkcd.api.Xkcd
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class LoggingXkcdSpec extends Specification implements SetterUtils { // TODO improve testability
+class LoggingXkcdSpec extends Specification implements SetterUtils {
 	private static final int ID = 1024
-	private static final String LOGGER = 'LOGGER'
 
 	private LoggingXkcd loggingXkcd
 
 	void setup() {
-		setStaticFinal(LoggingXkcd, LOGGER, Mock(Logger))
-		loggingXkcd = new LoggingXkcd(Mock(Xkcd))
+		loggingXkcd = new LoggingXkcd(Mock(Xkcd), Mock(Logger))
 	}
 
 	void 'Retrieving an existing comic is delegated to the underlying xkcd and a comic retrieved message is logged as info'() {
@@ -27,7 +25,7 @@ class LoggingXkcdSpec extends Specification implements SetterUtils { // TODO imp
 		then: 'retrieval is delegated to the underlying xkcd'
 			1 * loggingXkcd.xkcd.getComic(ID) >> comic
 		and: 'a comic retrieved message is logged as info'
-			1 * LoggingXkcd.LOGGER.info(String.format(LoggingXkcd.COMIC_RETRIEVED, ID))
+			1 * loggingXkcd.logger.info(String.format(LoggingXkcd.COMIC_RETRIEVED, ID))
 		and: 'no other interactions happen'
 			0 * _
 		and: 'comic is returned'
@@ -40,7 +38,7 @@ class LoggingXkcdSpec extends Specification implements SetterUtils { // TODO imp
 		then: 'retrieval is delegated to the underlying xkcd'
 			1 * loggingXkcd.xkcd.getComic(ID) >> null
 		and: 'a comic not found message is logged as info'
-			1 * LoggingXkcd.LOGGER.info(String.format(LoggingXkcd.COMIC_NOT_FOUND, ID))
+			1 * loggingXkcd.logger.info(String.format(LoggingXkcd.COMIC_NOT_FOUND, ID))
 		and: 'no other interactions happen'
 			0 * _
 		and: 'null is returned'
@@ -57,7 +55,7 @@ class LoggingXkcdSpec extends Specification implements SetterUtils { // TODO imp
 		and: 'the comic ID is retrieved'
 			1 * comic.id >> ID
 		and: 'a current comic retrieved message is logged as info'
-			1 * LoggingXkcd.LOGGER.info(String.format(LoggingXkcd.CURRENT_COMIC_RETRIEVED, ID))
+			1 * loggingXkcd.logger.info(String.format(LoggingXkcd.CURRENT_COMIC_RETRIEVED, ID))
 		and: 'no other interactions happen'
 			0 * _
 		and: 'comic is returned'

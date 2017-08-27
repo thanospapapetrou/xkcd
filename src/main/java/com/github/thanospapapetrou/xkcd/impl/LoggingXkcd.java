@@ -21,10 +21,11 @@ public class LoggingXkcd implements Xkcd {
 	private static final String COMIC_NOT_FOUND = "Comic %1$d not found";
 	private static final String COMIC_RETRIEVED = "Comic %1$d retrieved";
 	private static final String CURRENT_COMIC_RETRIEVED = "Current comic (%1$d) retrieved";
-	private static final Logger LOGGER = Logger.getLogger(LoggingXkcd.class.getCanonicalName());
+	private static final String NULL_LOGGER = "Logger must not be null";
 	private static final String NULL_XKCD = "xkcd must not be null";
 
 	private final Xkcd xkcd;
+	private final Logger logger;
 
 	/**
 	 * Construct a new logging xkcd.
@@ -34,20 +35,25 @@ public class LoggingXkcd implements Xkcd {
 	 */
 	@Inject
 	public LoggingXkcd(@Delegate final Xkcd xkcd) {
+		this(xkcd, Logger.getLogger(LoggingXkcd.class.getCanonicalName()));
+	}
+	
+	private LoggingXkcd(final Xkcd xkcd, final Logger logger) {
 		this.xkcd = Objects.requireNonNull(xkcd, NULL_XKCD);
+		this.logger = Objects.requireNonNull(logger, NULL_LOGGER);
 	}
 
 	@Override
 	public Comic getComic(final int id) throws XkcdException {
 		final Comic comic = xkcd.getComic(id);
-		LOGGER.info(String.format((comic == null) ? COMIC_NOT_FOUND : COMIC_RETRIEVED, id));
+		logger.info(String.format((comic == null) ? COMIC_NOT_FOUND : COMIC_RETRIEVED, id));
 		return comic;
 	}
 
 	@Override
 	public Comic getCurrentComic() throws XkcdException {
 		final Comic comic = xkcd.getCurrentComic();
-		LOGGER.info(String.format(CURRENT_COMIC_RETRIEVED, comic.getId()));
+		logger.info(String.format(CURRENT_COMIC_RETRIEVED, comic.getId()));
 		return comic;
 	}
 }
