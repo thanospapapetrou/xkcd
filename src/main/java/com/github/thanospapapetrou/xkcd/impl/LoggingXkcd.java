@@ -37,7 +37,7 @@ public class LoggingXkcd implements Xkcd {
 	public LoggingXkcd(@Delegate final Xkcd xkcd) {
 		this(xkcd, Logger.getLogger(LoggingXkcd.class.getCanonicalName()));
 	}
-	
+
 	private LoggingXkcd(final Xkcd xkcd, final Logger logger) {
 		this.xkcd = Objects.requireNonNull(xkcd, NULL_XKCD);
 		this.logger = Objects.requireNonNull(logger, NULL_LOGGER);
