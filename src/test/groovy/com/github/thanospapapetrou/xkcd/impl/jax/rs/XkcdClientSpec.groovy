@@ -1,7 +1,5 @@
 package com.github.thanospapapetrou.xkcd.impl.jax.rs
 
-import java.util.logging.Logger
-
 import javax.ws.rs.NotFoundException
 import javax.ws.rs.WebApplicationException
 import javax.ws.rs.client.Client
@@ -14,50 +12,41 @@ import com.github.thanospapapetrou.xkcd.SetterUtils
 import com.github.thanospapapetrou.xkcd.api.XkcdException
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class XkcdClientSpec extends Specification implements SetterUtils { // TODO improve testability
+class XkcdClientSpec extends Specification implements SetterUtils {
 	private static final URL BASE_URL = new URL('http://www.example.org/')
-	private static final String CLIENT = 'client'
 	private static final int ID = 1024
-	private static final String LOGGER = 'LOGGER'
-	private static final String TARGET = 'target'
-	private static final URI URI = BASE_URL.toURI()
 
-	private XkcdClient xkcd
+	private XkcdClient xkcdClient
 
 	void setup() {
-		setStaticFinal(XkcdClient, LOGGER, Mock(Logger))
-		xkcd = new XkcdClient()
-		setFinal(xkcd, CLIENT, Mock(Client))
-		setFinal(xkcd, TARGET, Mock(WebTarget))
+		xkcdClient = new XkcdClient(Mock(Client), Mock(WebTarget))
 	}
 
 	void 'Constructing an xkcd client using a base URL'() {
 		when: 'an xkcd client is constructed using a base URL'
-			XkcdClient client = new XkcdClient(BASE_URL)
+			XkcdClient xkcdClient = new XkcdClient(BASE_URL)
 		then: 'the underlying JAX-RS client has only one comic message body reader registered'
-			client.client.configuration.instances.size() == 1
-			Object object = client.client.configuration.instances.toList()[0]
+			xkcdClient.client.configuration.instances.size() == 1
+			Object object = xkcdClient.client.configuration.instances.toList()[0]
 			object.class == ComicMessageBodyReader
 		and: 'the the comic message body reader base URL is the base URL used to construct the xkcd client'
 			object.baseUrl == BASE_URL
 		and: 'the underlying JAX-RS target URI is the base URL used to construct the xkcd client '
-			client.target.uri == BASE_URL.toURI()
+			xkcdClient.target.uri == BASE_URL.toURI()
 	}
 
 	void 'Closing an xkcd client closes the underlying JAX-RS client'() {
 		when: 'xkcd client is closed'
-			xkcd.close()
+			xkcdClient.close()
 		then: 'the underlying JAX-RS client is closed'
-			1 * xkcd.client.close()
+			1 * xkcdClient.client.close()
 		and: 'no other interactions happen'
 			0 * _
 	}
 
 	void 'Retrieving an existing comic'() {
 		given: 'a JAX-RS target'
-			WebTarget target1 = Mock(WebTarget)
-		and: 'another JAX-RS target'
-			WebTarget target2 = Mock(WebTarget)
+			WebTarget target = Mock(WebTarget)
 		and: 'a JAX-RS invocation builder'
 			Invocation.Builder invocationBuilder = Mock(Invocation.Builder)
 		and: 'a JAX-RS invocation'
@@ -65,21 +54,19 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 		and: 'a comic'
 			Comic comic = Mock(Comic)
 		when: 'comic is retrieved by ID'
-			Comic result = xkcd.getComic(ID)
+			Comic result = xkcdClient.getComic(ID)
 		then: 'a new JAX-RS target is created by appending the get comic path to the underlying JAX-RS target'
-			1 * xkcd.target.path(XkcdClient.GET_COMIC) >> target1
+			1 * xkcdClient.target.path(XkcdClient.GET_COMIC) >> target
 		and: 'a new JAX-RS target is created by resolving the ID URI template against the previous JAX-RS target'
-			1 * target1.resolveTemplate(XkcdClient.ID, ID) >> target2
+			1 * target.resolveTemplate(XkcdClient.ID, ID) >> target
 		and: 'a JAX-RS builder is created with media type \'application/json;charset=UTF-8\''
-			1 * target2.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
+			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
 			1 * invocationBuilder.buildGet() >> invocation
 		and: 'invocation is invoked'
 			1 * invocation.invoke(Comic) >> comic
-		and: 'the second JAX-RS target URI is retrieved'
-			1 * target2.uri >> URI
-		and: 'a comic retrieved message is logged as fine'
-			1 * XkcdClient.LOGGER.fine(String.format(XkcdClient.COMIC_RETRIEVED_FROM, ID, URI))
+		and: 'the JAX-RS target URI is retrieved'
+			1 * target.uri >> BASE_URL.toURI()
 		and: 'no other interactions happen'
 			0 * _
 		and: 'comic is returned'
@@ -88,29 +75,25 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 
 	void 'Retrieving a non existing comic'() {
 		given: 'a JAX-RS target'
-			WebTarget target1 = Mock(WebTarget)
-		and: 'another JAX-RS target'
-			WebTarget target2 = Mock(WebTarget)
+			WebTarget target = Mock(WebTarget)
 		and: 'a JAX-RS invocation builder'
 			Invocation.Builder invocationBuilder = Mock(Invocation.Builder)
 		and: 'a JAX-RS invocation'
 			Invocation invocation = Mock(Invocation)
 		when: 'comic is retrieved by ID'
-			Comic result = xkcd.getComic(ID)
+			Comic result = xkcdClient.getComic(ID)
 		then: 'a new JAX-RS target is created by appending the get comic path to the underlying JAX-RS target'
-			1 * xkcd.target.path(XkcdClient.GET_COMIC) >> target1
+			1 * xkcdClient.target.path(XkcdClient.GET_COMIC) >> target
 		and: 'a new JAX-RS target is created by resolving the ID URI template against the previous JAX-RS target'
-			1 * target1.resolveTemplate(XkcdClient.ID, ID) >> target2
+			1 * target.resolveTemplate(XkcdClient.ID, ID) >> target
 		and: 'a JAX-RS builder is created with media type \'application/json;charset=UTF-8\''
-			1 * target2.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
+			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
 			1 * invocationBuilder.buildGet() >> invocation
 		and: 'invocation is invoked'
 			1 * invocation.invoke(Comic) >> { throw Mock(NotFoundException) }
 		and: 'the second JAX-RS target URI is retrieved'
-			1 * target2.uri >> URI
-		and: 'a comic not found message is logged as fine'
-			1 * XkcdClient.LOGGER.fine(String.format(XkcdClient.COMIC_NOT_FOUND, ID, URI))
+			1 * target.uri >> BASE_URL.toURI()
 		and: 'no other interactions happen'
 			0 * _
 		and: 'null is returned'
@@ -119,9 +102,7 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 
 	void 'Error retrieving a comic'() {
 		given: 'a JAX-RS target'
-			WebTarget target1 = Mock(WebTarget)
-		and: 'another JAX-RS target'
-			WebTarget target2 = Mock(WebTarget)
+			WebTarget target = Mock(WebTarget)
 		and: 'a JAX-RS invocation builder'
 			Invocation.Builder invocationBuilder = Mock(Invocation.Builder)
 		and: 'a JAX-RS invocation'
@@ -129,25 +110,25 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 		and: 'a web application exception'
 			WebApplicationException webApplicationException = Mock(WebApplicationException)
 		when: 'comic is retrieved by ID'
-			xkcd.getComic(ID)
+			xkcdClient.getComic(ID)
 		then: 'a new JAX-RS target is created by appending the get comic path to the underlying JAX-RS target'
-			1 * xkcd.target.path(XkcdClient.GET_COMIC) >> target1
+			1 * xkcdClient.target.path(XkcdClient.GET_COMIC) >> target
 		and: 'a new JAX-RS target is created by resolving the ID URI template against the previous JAX-RS target'
-			1 * target1.resolveTemplate(XkcdClient.ID, ID) >> target2
+			1 * target.resolveTemplate(XkcdClient.ID, ID) >> target
 		and: 'a JAX-RS builder is created with media type \'application/json;charset=UTF-8\''
-			1 * target2.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
+			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
 			1 * invocationBuilder.buildGet() >> invocation
 		and: 'invocation is invoked'
 			1 * invocation.invoke(Comic) >> { throw webApplicationException }
 		and: 'the second JAX-RS target URI is retrieved'
-			1 * target2.uri >> URI
+			1 * target.uri >> BASE_URL.toURI()
 		and: 'no other interactions happen'
 			0 * _
 		and: 'an xkcd exception is thrown'
 			XkcdException e = thrown(XkcdException)
 		and: 'exception message is an error retrieving comic message'
-			e.message == String.format(XkcdClient.ERROR_RETRIEVING_COMIC, ID, URI)
+			e.message == String.format(XkcdClient.ERROR_RETRIEVING_COMIC, ID, BASE_URL.toURI())
 		and: 'exception cause is the web application exception'
 			e.cause == webApplicationException
 	}
@@ -162,9 +143,9 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 		and: 'a comic'
 			Comic comic = Mock(Comic)
 		when: 'comic is retrieved by ID'
-			Comic result = xkcd.currentComic
+			Comic result = xkcdClient.currentComic
 		then: 'a new JAX-RS target is created by appending the get comic path to the underlying JAX-RS target'
-			1 * xkcd.target.path(XkcdClient.GET_CURRENT_COMIC) >> target
+			1 * xkcdClient.target.path(XkcdClient.GET_CURRENT_COMIC) >> target
 		and: 'a JAX-RS builder is created with media type \'application/json;charset=UTF-8\''
 			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
@@ -174,9 +155,7 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 		and: 'the comic ID is retrieved'
 			1 * comic.id >> ID
 		and: 'the second JAX-RS target URI is retrieved'
-			1 * target.uri >> URI
-		and: 'a current comic retrieved message is logged as fine'
-			1 * XkcdClient.LOGGER.fine(String.format(XkcdClient.CURRENT_COMIC_RETRIEVED_FROM, ID, URI))
+			1 * target.uri >> BASE_URL.toURI()
 		and: 'no other interactions happen'
 			0 * _
 		and: 'comic is returned'
@@ -193,9 +172,9 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 		and: 'a web application exception'
 			WebApplicationException webApplicationException = Mock(WebApplicationException)
 		when: 'comic is retrieved by ID'
-			xkcd.currentComic
+			xkcdClient.currentComic
 		then: 'a new JAX-RS target is created by appending the get comic path to the underlying JAX-RS target'
-			1 * xkcd.target.path(XkcdClient.GET_CURRENT_COMIC) >> target
+			1 * xkcdClient.target.path(XkcdClient.GET_CURRENT_COMIC) >> target
 		and: 'a JAX-RS builder is created with media type \'application/json;charset=UTF-8\''
 			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
@@ -203,13 +182,13 @@ class XkcdClientSpec extends Specification implements SetterUtils { // TODO impr
 		and: 'invocation is invoked'
 			1 * invocation.invoke(Comic) >> { throw webApplicationException }
 		and: 'the second JAX-RS target URI is retrieved'
-			1 * target.uri >> URI
+			1 * target.uri >> BASE_URL.toURI()
 		and: 'no other interactions happen'
 			0 * _
 		and: 'an xkcd exception is thrown'
 			XkcdException e = thrown(XkcdException)
 		and: 'exception message is an error retrieving current comic message'
-			e.message == String.format(XkcdClient.ERROR_RETRIEVING_CURRENT_COMIC, URI)
+			e.message == String.format(XkcdClient.ERROR_RETRIEVING_CURRENT_COMIC, BASE_URL.toURI())
 		and: 'exception cause is the web application exception'
 			e.cause == webApplicationException
 	}

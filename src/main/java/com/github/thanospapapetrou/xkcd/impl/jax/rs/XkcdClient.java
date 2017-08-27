@@ -50,15 +50,22 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 	 */
 	@Inject
 	public XkcdClient(@Configuration(Configuration.Key.BASE_URL) final URL baseUrl) {
-		Objects.requireNonNull(baseUrl, NULL_BASE_URL);
-		client = ClientBuilder.newBuilder().register(new ComicMessageBodyReader(baseUrl)).build();
-		target = client.target(baseUrl.toString());
+		this(ClientBuilder.newBuilder().register(new ComicMessageBodyReader(Objects.requireNonNull(baseUrl, NULL_BASE_URL))).build(), baseUrl);
 	}
 
 	XkcdClient() {
 		// this constructor exists just to keep CDI happy
 		client = null;
 		target = null;
+	}
+
+	private XkcdClient(final Client client, final URL baseUrl) {
+		this(client, client.target(baseUrl.toString()));
+	}
+
+	private XkcdClient(final Client client, final WebTarget target) {
+		this.client = client;
+		this.target = target;
 	}
 
 	@Override
