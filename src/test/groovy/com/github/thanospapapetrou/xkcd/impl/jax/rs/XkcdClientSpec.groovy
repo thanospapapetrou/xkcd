@@ -1,5 +1,7 @@
 package com.github.thanospapapetrou.xkcd.impl.jax.rs
 
+import java.util.logging.Logger
+
 import javax.ws.rs.NotFoundException
 import javax.ws.rs.WebApplicationException
 import javax.ws.rs.client.Client
@@ -19,7 +21,7 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 	private XkcdClient xkcdClient
 
 	void setup() {
-		xkcdClient = new XkcdClient(Mock(Client), Mock(WebTarget))
+		xkcdClient = new XkcdClient(Mock(Client), Mock(WebTarget), Mock(Logger))
 	}
 
 	void 'Constructing an xkcd client using a base URL'() {
@@ -67,6 +69,8 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * invocation.invoke(Comic) >> comic
 		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()
+		and: 'a comic retrieved from message is logged as fine'
+			1 * xkcdClient.logger.fine(String.format(XkcdClient.COMIC_RETRIEVED_FROM, ID, BASE_URL.toURI()))
 		and: 'no other interactions happen'
 			0 * _
 		and: 'comic is returned'
@@ -92,8 +96,10 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * invocationBuilder.buildGet() >> invocation
 		and: 'invocation is invoked'
 			1 * invocation.invoke(Comic) >> { throw Mock(NotFoundException) }
-		and: 'the second JAX-RS target URI is retrieved'
+		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()
+		and: 'a comic not found message is logged as fine'
+			1 * xkcdClient.logger.fine(String.format(XkcdClient.COMIC_NOT_FOUND, ID, BASE_URL.toURI()))
 		and: 'no other interactions happen'
 			0 * _
 		and: 'null is returned'
@@ -121,7 +127,7 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * invocationBuilder.buildGet() >> invocation
 		and: 'invocation is invoked'
 			1 * invocation.invoke(Comic) >> { throw webApplicationException }
-		and: 'the second JAX-RS target URI is retrieved'
+		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()
 		and: 'no other interactions happen'
 			0 * _
@@ -154,8 +160,10 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * invocation.invoke(Comic) >> comic
 		and: 'the comic ID is retrieved'
 			1 * comic.id >> ID
-		and: 'the second JAX-RS target URI is retrieved'
+		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()
+		and: 'a current comic retrieved from message is logged as fine'
+			1 * xkcdClient.logger.fine(String.format(XkcdClient.CURRENT_COMIC_RETRIEVED_FROM, ID, BASE_URL.toURI()))
 		and: 'no other interactions happen'
 			0 * _
 		and: 'comic is returned'
@@ -181,7 +189,7 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * invocationBuilder.buildGet() >> invocation
 		and: 'invocation is invoked'
 			1 * invocation.invoke(Comic) >> { throw webApplicationException }
-		and: 'the second JAX-RS target URI is retrieved'
+		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()
 		and: 'no other interactions happen'
 			0 * _

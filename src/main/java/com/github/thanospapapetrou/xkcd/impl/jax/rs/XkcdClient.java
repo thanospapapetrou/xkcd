@@ -36,11 +36,11 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 	private static final String GET_COMIC = "/{id}/info.0.json";
 	private static final String GET_CURRENT_COMIC = "/info.0.json";
 	private static final String ID = "id";
-	private static final Logger LOGGER = Logger.getLogger(XkcdClient.class.getCanonicalName());
 	private static final String NULL_BASE_URL = "Base URL must not be null";
 
 	private final Client client;
 	private final WebTarget target;
+	private final Logger logger;
 
 	/**
 	 * Construct a new xkcd client.
@@ -57,15 +57,17 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 		// this constructor exists just to keep CDI happy
 		client = null;
 		target = null;
+		logger = null;
 	}
 
 	private XkcdClient(final Client client, final URL baseUrl) {
-		this(client, client.target(baseUrl.toString()));
+		this(client, client.target(baseUrl.toString()), Logger.getLogger(XkcdClient.class.getCanonicalName()));
 	}
 
-	private XkcdClient(final Client client, final WebTarget target) {
+	private XkcdClient(final Client client, final WebTarget target, final Logger logger) {
 		this.client = client;
 		this.target = target;
+		this.logger = logger;
 	}
 
 	@Override
@@ -79,10 +81,10 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 		final WebTarget target = this.target.path(GET_COMIC).resolveTemplate(ID, id);
 		try {
 			final Comic comic = target.request(APPLICATION_JSON_CHARSET_UTF_8).buildGet().invoke(Comic.class);
-			LOGGER.fine(String.format(COMIC_RETRIEVED_FROM, id, target.getUri()));
+			logger.fine(String.format(COMIC_RETRIEVED_FROM, id, target.getUri()));
 			return comic;
 		} catch (final NotFoundException e) {
-			LOGGER.fine(String.format(COMIC_NOT_FOUND, id, target.getUri()));
+			logger.fine(String.format(COMIC_NOT_FOUND, id, target.getUri()));
 			return null;
 		} catch (final WebApplicationException e) {
 			throw new XkcdException(String.format(ERROR_RETRIEVING_COMIC, id, target.getUri()), e);
@@ -94,7 +96,7 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 		final WebTarget target = this.target.path(GET_CURRENT_COMIC);
 		try {
 			final Comic comic = target.request(APPLICATION_JSON_CHARSET_UTF_8).buildGet().invoke(Comic.class);
-			LOGGER.fine(String.format(CURRENT_COMIC_RETRIEVED_FROM, comic.getId(), target.getUri()));
+			logger.fine(String.format(CURRENT_COMIC_RETRIEVED_FROM, comic.getId(), target.getUri()));
 			return comic;
 		} catch (final WebApplicationException e) {
 			throw new XkcdException(String.format(ERROR_RETRIEVING_CURRENT_COMIC, target.getUri()), e);
