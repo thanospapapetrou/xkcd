@@ -50,7 +50,9 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 	 */
 	@Inject
 	public XkcdClient(@Configuration(Configuration.Key.BASE_URL) final URL baseUrl) {
-		this(ClientBuilder.newBuilder().register(new ComicMessageBodyReader(Objects.requireNonNull(baseUrl, NULL_BASE_URL))).build(), baseUrl);
+		client = ClientBuilder.newBuilder().register(new ComicMessageBodyReader(Objects.requireNonNull(baseUrl, NULL_BASE_URL))).build();
+		target = client.target(baseUrl.toString());
+		logger = Logger.getLogger(XkcdClient.class.getCanonicalName());
 	}
 
 	XkcdClient() {
@@ -60,11 +62,9 @@ public class XkcdClient implements AutoCloseable, Xkcd {
 		logger = null;
 	}
 
-	private XkcdClient(final Client client, final URL baseUrl) {
-		this(client, client.target(baseUrl.toString()), Logger.getLogger(XkcdClient.class.getCanonicalName()));
-	}
-
+	@SuppressWarnings("unused")
 	private XkcdClient(final Client client, final WebTarget target, final Logger logger) {
+		// this constructor exists just for testing
 		this.client = client;
 		this.target = target;
 		this.logger = logger;

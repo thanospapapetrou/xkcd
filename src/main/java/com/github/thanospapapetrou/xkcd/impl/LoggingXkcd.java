@@ -21,7 +21,6 @@ public class LoggingXkcd implements Xkcd {
 	private static final String COMIC_NOT_FOUND = "Comic %1$d not found";
 	private static final String COMIC_RETRIEVED = "Comic %1$d retrieved";
 	private static final String CURRENT_COMIC_RETRIEVED = "Current comic (%1$d) retrieved";
-	private static final String NULL_LOGGER = "Logger must not be null";
 	private static final String NULL_XKCD = "xkcd must not be null";
 
 	private final Xkcd xkcd;
@@ -35,12 +34,13 @@ public class LoggingXkcd implements Xkcd {
 	 */
 	@Inject
 	public LoggingXkcd(@Delegate final Xkcd xkcd) {
-		this(xkcd, Logger.getLogger(LoggingXkcd.class.getCanonicalName()));
+		this(Objects.requireNonNull(xkcd, NULL_XKCD), Logger.getLogger(LoggingXkcd.class.getCanonicalName()));
 	}
 
 	private LoggingXkcd(final Xkcd xkcd, final Logger logger) {
-		this.xkcd = Objects.requireNonNull(xkcd, NULL_XKCD);
-		this.logger = Objects.requireNonNull(logger, NULL_LOGGER);
+		// this constructor exists just for testing
+		this.xkcd = xkcd;
+		this.logger = logger;
 	}
 
 	@Override

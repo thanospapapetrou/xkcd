@@ -24,19 +24,6 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 		xkcdClient = new XkcdClient(Mock(Client), Mock(WebTarget), Mock(Logger))
 	}
 
-	void 'Constructing an xkcd client using a base URL'() {
-		when: 'an xkcd client is constructed using a base URL'
-			XkcdClient xkcdClient = new XkcdClient(BASE_URL)
-		then: 'the underlying JAX-RS client has only one comic message body reader registered'
-			xkcdClient.client.configuration.instances.size() == 1
-			Object object = xkcdClient.client.configuration.instances.toList()[0]
-			object.class == ComicMessageBodyReader
-		and: 'the the comic message body reader base URL is the base URL used to construct the xkcd client'
-			object.baseUrl == BASE_URL
-		and: 'the underlying JAX-RS target URI is the base URL used to construct the xkcd client '
-			xkcdClient.target.uri == BASE_URL.toURI()
-	}
-
 	void 'Closing an xkcd client closes the underlying JAX-RS client'() {
 		when: 'xkcd client is closed'
 			xkcdClient.close()

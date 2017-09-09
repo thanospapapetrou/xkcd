@@ -34,10 +34,10 @@ class XkcdServerSpec extends Specification {
 			xkcdServer.getComic(ID)
 		then: 'retrieval is delegated to the underlying xkcd'
 			1 * xkcdServer.xkcd.getComic(ID) >> null
-		and: 'a not found exception is thrown'
-			thrown(NotFoundException)
 		and: 'no other interactions happen'
 			0 * _
+		and: 'a not found exception is thrown'
+			thrown(NotFoundException)
 	}
 
 	void 'Retrieving current comic is delegated to the underlying xkcd'() {
