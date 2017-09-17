@@ -2,7 +2,6 @@ package com.github.thanospapapetrou.xkcd.impl.jax.rs;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -18,6 +17,7 @@ import java.util.TimeZone;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReaderFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -51,6 +51,8 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 	private static final String YEAR = "year";
 
 	private final URL baseUrl;
+	private final JsonReaderFactory jsonReaderFactory;
+	private final ThreadLocal<Calendar> calendar;
 
 	/**
 	 * Construct a new comic message body reader. Instances of this class are thread-safe.
@@ -59,30 +61,19 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 	 *            the base URL to use for resolving relative link URLs in comic JSON
 	 */
 	public ComicMessageBodyReader(final URL baseUrl) {
-		this.baseUrl = Objects.requireNonNull(baseUrl, NULL_BASE_URL);
+		this(Objects.requireNonNull(baseUrl, NULL_BASE_URL), Json.createReaderFactory(null), new ThreadLocal<Calendar>() {
+			@Override
+			protected Calendar initialValue() {
+				return new GregorianCalendar(GMT, Locale.ROOT);
+			}
+		});
 	}
 
-	private static Date convertDate(final int year, final int month, final int day) {
-		final Calendar calendar = new GregorianCalendar(GMT, Locale.ROOT);
-		calendar.set(Calendar.ERA, GregorianCalendar.AD);
-		calendar.set(Calendar.YEAR, year);
-		calendar.set(Calendar.MONTH, month);
-		calendar.set(Calendar.DATE, day);
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		return calendar.getTime();
-	}
-
-	private static Charset getCharset(final MediaType mediaType) {
-		Objects.requireNonNull(mediaType, NULL_MEDIA_TYPE);
-		final Map<String, String> parameters = mediaType.getParameters();
-		if (parameters.containsKey(MediaType.CHARSET_PARAMETER)) {
-			final String charset = parameters.get(MediaType.CHARSET_PARAMETER);
-			return Charset.isSupported(charset) ? Charset.forName(charset) : null;
-		}
-		return StandardCharsets.UTF_8;
+	ComicMessageBodyReader(final URL baseUrl, final JsonReaderFactory jsonReaderFactory, final ThreadLocal<Calendar> calendar) {
+		// this constructor exists and is package private just for testing
+		this.baseUrl = baseUrl;
+		this.jsonReaderFactory = jsonReaderFactory;
+		this.calendar = calendar;
 	}
 
 	@Override
@@ -93,7 +84,38 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 	@Override
 	public Comic readFrom(final Class<Comic> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, String> httpHeaders, final InputStream input) throws IOException {
 		Objects.requireNonNull(input, NULL_INPUT);
-		final JsonObject json = Json.createReader(new InputStreamReader(input, getCharset(mediaType))).readObject();
-		return new Comic(json.getInt(ID), convertDate(Integer.parseInt(json.getString(YEAR)), Integer.parseInt(json.getString(MONTH)) - 1, Integer.parseInt(json.getString(DAY))), json.getString(TITLE), json.getString(SAFE_TITLE), new URL(json.getString(IMAGE)), json.getString(ALTERNATE), json.getString(TRANSCRIPT), json.getString(LINK).isEmpty() ? null : new URL(baseUrl, json.getString(LINK)), json.getString(NEWS));
+		final JsonObject json = jsonReaderFactory.createReader(input, getCharset(mediaType)).readObject();
+		final Calendar calendar = this.calendar.get();
+		calendar.set(Calendar.ERA, GregorianCalendar.AD);
+		calendar.set(Calendar.YEAR, Integer.parseInt(json.getString(YEAR)));
+		calendar.set(Calendar.MONTH, Integer.parseInt(json.getString(MONTH)) - 1);
+		calendar.set(Calendar.DATE, Integer.parseInt(json.getString(DAY)));
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		final String link = json.getString(LINK);
+		return new Comic(json.getInt(ID), new Date(calendar.getTimeInMillis()), json.getString(TITLE), json.getString(SAFE_TITLE), new URL(json.getString(IMAGE)), json.getString(ALTERNATE), json.getString(TRANSCRIPT), link.isEmpty() ? null : new URL(baseUrl, link), json.getString(NEWS));
+	}
+
+	Charset getCharset(final MediaType mediaType) {
+		// this method is package private non-static instead of private static just for testing
+		Objects.requireNonNull(mediaType, NULL_MEDIA_TYPE);
+		final Map<String, String> parameters = mediaType.getParameters();
+		if (parameters.containsKey(MediaType.CHARSET_PARAMETER)) {
+			final String charset = parameters.get(MediaType.CHARSET_PARAMETER);
+			return Charset.isSupported(charset) ? Charset.forName(charset) : null;
+		}
+		return StandardCharsets.ISO_8859_1;
+	}
+
+	JsonReaderFactory getJsonReaderFactory() {
+		// this method exists and is package private just for testing
+		return jsonReaderFactory;
+	}
+
+	ThreadLocal<Calendar> getCalendar() {
+		// this method exists and is package private just for testing
+		return calendar;
 	}
 }

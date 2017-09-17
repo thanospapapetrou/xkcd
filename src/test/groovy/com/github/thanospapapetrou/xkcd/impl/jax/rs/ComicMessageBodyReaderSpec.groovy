@@ -3,8 +3,9 @@ package com.github.thanospapapetrou.xkcd.impl.jax.rs
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
-import javax.json.Json
-import javax.json.JsonWriter
+import javax.json.JsonObject
+import javax.json.JsonReader
+import javax.json.JsonReaderFactory
 import javax.ws.rs.core.MediaType
 
 import spock.lang.Specification
@@ -12,51 +13,132 @@ import spock.lang.Unroll
 
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class ComicMessageBodyReaderSpec extends Specification { // TODO improve testability
-	private static final String ABSOLUTE = 'absolute'
+class ComicMessageBodyReaderSpec extends Specification {
 	private static final String ALTERNATE = 'Alternate'
 	private static final URL BASE_URL = new URL('http://www.example.org/')
-	private static final Date DATE = new Date(0L)
+	private static final int DAY = 1
 	private static final int ID = 1024
 	private static final URL IMAGE = new URL('http://www.example.org/image')
 	private static final URL LINK = new URL('http://www.example.org/link')
+	private static final int MONTH = 1
 	private static final String NEWS = 'News'
-	private static final String NO = 'no'
-	private static final String RELATIVE = 'relative'
 	private static final String SAFE_TITLE = 'Safe Title'
-	private static final String SUPPORTED = 'supported'
 	private static final String TITLE = 'Title'
 	private static final String TRANSCRIPT = 'Transcript'
-	private static final String UNSUPPORTED = 'unsupported'
-	private static final String UNSUPPORTED_CHARSET = 'UnsupportedCharset'
+	private static final String UNSUPPORTED_CHARSET = 'UNSUPPORTED_CHARSET'
 	private static final int YEAR = 1970
-	private static final int MONTH = 0
-	private static final int DAY = 1
 
 	private ComicMessageBodyReader comicMessageBodyReader
 
 	void setup() {
-		comicMessageBodyReader = new ComicMessageBodyReader(BASE_URL)
+		comicMessageBodyReader = Spy(ComicMessageBodyReader, constructorArgs:[BASE_URL, Mock(JsonReaderFactory), Mock(ThreadLocal)])
 	}
 
-	void 'Converting year, month and day to date'() {
-		when: 'year, month and day are covnerted to date'
-			Date result = ComicMessageBodyReader.convertDate(YEAR, MONTH, DAY)
-		then: 'no interactions happen'
+	@Unroll('Checking a media type with #charset charset if it is readable')
+	void 'Checking a media type with charset if it is readable'() {
+		given: 'a media type'
+			MediaType mediaType = Mock(MediaType)
+		when: 'media type is checked if it is readable'
+			boolean result = comicMessageBodyReader.isReadable(null, null, null, mediaType)
+		then: 'media type charset is retrieved'
+			1 * comicMessageBodyReader.getCharset(mediaType) >> charset
+		and: 'the initial call is concluded'
+			1 * comicMessageBodyReader.isReadable(null, null, null, mediaType)
+		and: 'no other interactions happen'
 			0 * _
-		and: 'the expected date is returned'
-			Calendar calendar = new GregorianCalendar(ComicMessageBodyReader.GMT, Locale.ROOT)
-			calendar.setTime(result)
-			with (calendar) {
-				get(Calendar.ERA) == GregorianCalendar.AD
-				get(Calendar.YEAR) == YEAR
-				get(Calendar.MONTH) == MONTH
-				get(Calendar.DATE) == DAY
-				get(Calendar.HOUR_OF_DAY) == 0
-				get(Calendar.MINUTE) == 0
-				get(Calendar.SECOND) == 0
-				get(Calendar.MILLISECOND) == 0
+		and: 'the expected result is returned'
+			result == readable
+		where:
+			charset                || readable
+			null                   || false
+			StandardCharsets.UTF_8 || true
+	}
+
+	@Unroll('Reading a comic with link "#jsonLink"')
+	void 'Reading a comic with link using media type with charset'() {
+		given: 'a media type'
+			MediaType mediaType = Mock(MediaType)
+		and: 'an input stream'
+			InputStream input = Mock(InputStream)
+		and: 'a charset'
+			Charset charset = Mock(Charset)
+		and: 'a JSON reader'
+			JsonReader jsonReader = Mock(JsonReader)
+		and: 'a JSON object'
+			JsonObject json = Mock(JsonObject)
+		and: 'a calendar'
+			Calendar calendar = Mock(Calendar)
+		when: 'comic is read'
+			Comic result = comicMessageBodyReader.readFrom(null, null, null, mediaType, null, input)
+		then: 'media type charset is retrieved'
+			1 * comicMessageBodyReader.getCharset(mediaType) >> charset
+		and: 'a JSON reader is created'
+			1 * comicMessageBodyReader.jsonReaderFactory.createReader(input, charset) >> jsonReader
+		and: 'a JSON object is read'
+			1 * jsonReader.readObject() >> json
+		and: 'a calendar instance is retrieved'
+			1 * comicMessageBodyReader.calendar.get() >> calendar
+		and: 'calendar era is set'
+			1 * calendar.set(Calendar.ERA, GregorianCalendar.AD)
+		and: 'JSON object year is retrieved'
+			1 * json.getString(ComicMessageBodyReader.YEAR) >> YEAR.toString()
+		and: 'calendar year is set'
+			1 * calendar.set(Calendar.YEAR, YEAR)
+		and: 'JSON object month is retrieved'
+			1 * json.getString(ComicMessageBodyReader.MONTH) >> MONTH.toString()
+		and: 'calendar month is set'
+			1 * calendar.set(Calendar.MONTH, MONTH - 1)
+		and: 'JSON object day is retrieved'
+			1 * json.getString(ComicMessageBodyReader.DAY) >> DAY.toString()
+		and: 'calendar date is set'
+			1 * calendar.set(Calendar.DATE, DAY)
+		and: 'calendar hour of day is set'
+			1 * calendar.set(Calendar.HOUR_OF_DAY, 0)
+		and: 'calendar minute is set'
+			1 * calendar.set(Calendar.MINUTE, 0)
+		and: 'calendar second is set'
+			1 * calendar.set(Calendar.SECOND, 0)
+		and: 'calendar millisecond is set'
+			1 * calendar.set(Calendar.MILLISECOND, 0)
+		and: 'JSON object link is retrieved'
+			1 * json.getString(ComicMessageBodyReader.LINK) >> jsonLink
+		and: 'JSON object ID is retrieved'
+			1 * json.getInt(ComicMessageBodyReader.ID) >> ID
+		and: 'calendar time is retrieved'
+			1 * calendar.timeInMillis >> 0L
+		and: 'JSON object title is retrieved'
+			1 * json.getString(ComicMessageBodyReader.TITLE) >> TITLE
+		and: 'JSON object safe title is retrieved'
+			1 * json.getString(ComicMessageBodyReader.SAFE_TITLE) >> SAFE_TITLE
+		and: 'JSON object image is retrieved'
+			1 * json.getString(ComicMessageBodyReader.IMAGE) >> IMAGE.toString()
+		and: 'JSON object alternate is retrieved'
+			1 * json.getString(ComicMessageBodyReader.ALTERNATE) >> ALTERNATE
+		and: 'JSON object transcript is retrieved'
+			1 * json.getString(ComicMessageBodyReader.TRANSCRIPT) >> TRANSCRIPT
+		and: 'JSON object news is retrieved'
+			1 * json.getString(ComicMessageBodyReader.NEWS) >> NEWS
+		and: 'the initial call is concluded'
+			1 * comicMessageBodyReader.readFrom(null, null, null, mediaType, null, input)
+		and: 'no other interactions happen'
+			0 * _
+		and: 'the comic read is returned'
+			with (result) {
+				id == ID
+				date == new Date(0L)
+				title == TITLE
+				safeTitle == SAFE_TITLE
+				image == IMAGE
+				alternate == ALTERNATE
+				transcript == TRANSCRIPT
+				link == resultLink
+				news == NEWS
 			}
+		where:
+			jsonLink                                             || resultLink
+			''                                                   || null
+			LINK.toString()                                      || LINK
+			BASE_URL.toURI().relativize(LINK.toURI()).toString() || LINK
 	}
 
 	void 'Retrieving charset of media type with supported charset'() {
@@ -65,13 +147,15 @@ class ComicMessageBodyReaderSpec extends Specification { // TODO improve testabi
 		and: 'a parameter map'
 			Map<String, String> parameters = Mock(Map)
 		when: 'media type charset is retrieved'
-			Charset result = ComicMessageBodyReader.getCharset(mediaType)
+			Charset result = comicMessageBodyReader.getCharset(mediaType)
 		then: 'media type parameters are retrieved'
 			1 * mediaType.parameters >> parameters
 		and: 'parameters are checked if they contain \'charset\' parameter'
 			1 * parameters.containsKey(MediaType.CHARSET_PARAMETER) >> true
 		and: '\'charset\' parameter is retrieved'
 			1 * parameters.get(MediaType.CHARSET_PARAMETER) >> StandardCharsets.UTF_8.name()
+		and: 'the initial call is concluded'
+			1 * comicMessageBodyReader.getCharset(mediaType)
 		and: 'no other interactions happen'
 			0 * _
 		and: 'the expected charset is returned'
@@ -84,13 +168,15 @@ class ComicMessageBodyReaderSpec extends Specification { // TODO improve testabi
 		and: 'a parameter map'
 			Map<String, String> parameters = Mock(Map)
 		when: 'media type charset is retrieved'
-			Charset result = ComicMessageBodyReader.getCharset(mediaType)
+			Charset result = comicMessageBodyReader.getCharset(mediaType)
 		then: 'media type parameters are retrieved'
 			1 * mediaType.parameters >> parameters
 		and: 'parameters are checked if they contain \'charset\' parameter'
 			1 * parameters.containsKey(MediaType.CHARSET_PARAMETER) >> true
 		and: '\'charset\' parameter is retrieved'
 			1 * parameters.get(MediaType.CHARSET_PARAMETER) >> UNSUPPORTED_CHARSET
+		and: 'the initial call is concluded'
+			1 * comicMessageBodyReader.getCharset(mediaType)
 		and: 'no other interactions happen'
 			0 * _
 		and: 'null is returned'
@@ -103,63 +189,16 @@ class ComicMessageBodyReaderSpec extends Specification { // TODO improve testabi
 		and: 'a parameter map'
 			Map<String, String> parameters = Mock(Map)
 		when: 'media type charset is retrieved'
-			Charset result = ComicMessageBodyReader.getCharset(mediaType)
+			Charset result = comicMessageBodyReader.getCharset(mediaType)
 		then: 'media type parameters are retrieved'
 			1 * mediaType.parameters >> parameters
 		and: 'parameters are checked if they contain \'charset\' parameter'
 			1 * parameters.containsKey(MediaType.CHARSET_PARAMETER) >> false
+		and: 'the initial call is concluded'
+			1 * comicMessageBodyReader.getCharset(mediaType)
 		and: 'no other interactions happen'
 			0 * _
-		and: 'UTF-8 is returned'
-			result == StandardCharsets.UTF_8
-	}
-
-	@Unroll('Checking a media type with #charset charset if it is readable')
-	void 'Checking a media type with charset if it is readable'() {
-		when: 'media type is checked if it is readable'
-			boolean result = comicMessageBodyReader.isReadable(null, null, null, mediaType)
-		then: 'no interactions happen'
-			0 * _
-		and: 'the expected result is returned'
-			result == readable
-		where:
-			charset     | mediaType                                                                  | readable
-			SUPPORTED   | MediaType.APPLICATION_JSON_TYPE.withCharset(StandardCharsets.UTF_8.name()) | true
-			UNSUPPORTED | MediaType.APPLICATION_JSON_TYPE.withCharset(UNSUPPORTED_CHARSET)           | false
-			NO          | MediaType.APPLICATION_JSON_TYPE                                            | true
-	}
-
-	@Unroll('Reading a comic with #linkDescription link using media type with #charset charset')
-	void 'Reading a comic with link using media type with charset'() {
-		given: 'an input stream containing a json object'
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream()
-			JsonWriter jsonWriter = Json.createWriter(new OutputStreamWriter(buffer, ComicMessageBodyReader.getCharset(mediaType)))
-			jsonWriter.writeObject(Json.createObjectBuilder().add(ComicMessageBodyReader.ID, ID).add(ComicMessageBodyReader.YEAR, YEAR.toString()).add(ComicMessageBodyReader.MONTH, (MONTH + 1).toString()).add(ComicMessageBodyReader.DAY, DAY.toString()).add(ComicMessageBodyReader.TITLE, TITLE).add(ComicMessageBodyReader.SAFE_TITLE, SAFE_TITLE).add(ComicMessageBodyReader.IMAGE, IMAGE.toString()).add(ComicMessageBodyReader.ALTERNATE, ALTERNATE).add(ComicMessageBodyReader.TRANSCRIPT, TRANSCRIPT).add(ComicMessageBodyReader.LINK, jsonLink).add(ComicMessageBodyReader.NEWS, NEWS).build())
-			jsonWriter.close()
-			InputStream input = new ByteArrayInputStream(buffer.toByteArray())
-		when: 'comic is read'
-			Comic result = comicMessageBodyReader.readFrom(null, null, null, mediaType, null, input)
-		then: 'no interactions happen'
-			0 * _
-		and: 'the comic read is returned'
-			with (result) {
-				id == ID
-				date == DATE
-				title == TITLE
-				safeTitle == SAFE_TITLE
-				image == IMAGE
-				alternate == ALTERNATE
-				transcript == TRANSCRIPT
-				link == resultLink
-				news == NEWS
-			}
-		where:
-			linkDescription | jsonLink                                             | resultLink | charset     | mediaType
-			ABSOLUTE        | LINK.toString()                                      | LINK       | SUPPORTED   | MediaType.APPLICATION_JSON_TYPE.withCharset(StandardCharsets.UTF_8.name())
-			ABSOLUTE        | LINK.toString()                                      | LINK       | NO          | MediaType.APPLICATION_JSON_TYPE
-			RELATIVE        | BASE_URL.toURI().relativize(LINK.toURI()).toString() | LINK       | SUPPORTED   | MediaType.APPLICATION_JSON_TYPE.withCharset(StandardCharsets.UTF_8.name())
-			RELATIVE        | BASE_URL.toURI().relativize(LINK.toURI()).toString() | LINK       | NO          | MediaType.APPLICATION_JSON_TYPE
-			NO              | ''                                                   | null       | SUPPORTED   | MediaType.APPLICATION_JSON_TYPE.withCharset(StandardCharsets.UTF_8.name())
-			NO              | ''                                                   | null       | NO          | MediaType.APPLICATION_JSON_TYPE
+		and: 'ISO-8859-1 is returned'
+			result == StandardCharsets.ISO_8859_1
 	}
 }
