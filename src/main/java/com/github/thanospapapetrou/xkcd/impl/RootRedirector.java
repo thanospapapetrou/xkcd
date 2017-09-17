@@ -2,7 +2,6 @@ package com.github.thanospapapetrou.xkcd.impl;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ public class RootRedirector extends HttpServlet {
 	private static final long serialVersionUID = 0L;
 
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		response.sendRedirect(CURRENT_COMIC);
 	}
 }

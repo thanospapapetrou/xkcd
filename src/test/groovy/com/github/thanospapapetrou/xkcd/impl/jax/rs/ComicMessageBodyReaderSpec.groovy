@@ -24,6 +24,7 @@ class ComicMessageBodyReaderSpec extends Specification {
 	private static final String NEWS = 'News'
 	private static final String SAFE_TITLE = 'Safe Title'
 	private static final String TITLE = 'Title'
+	private static final long TIME = 0L
 	private static final String TRANSCRIPT = 'Transcript'
 	private static final String UNSUPPORTED_CHARSET = 'UNSUPPORTED_CHARSET'
 	private static final int YEAR = 1970
@@ -105,7 +106,7 @@ class ComicMessageBodyReaderSpec extends Specification {
 		and: 'JSON object ID is retrieved'
 			1 * json.getInt(ComicMessageBodyReader.ID) >> ID
 		and: 'calendar time is retrieved'
-			1 * calendar.timeInMillis >> 0L
+			1 * calendar.timeInMillis >> TIME
 		and: 'JSON object title is retrieved'
 			1 * json.getString(ComicMessageBodyReader.TITLE) >> TITLE
 		and: 'JSON object safe title is retrieved'
@@ -125,7 +126,7 @@ class ComicMessageBodyReaderSpec extends Specification {
 		and: 'the comic read is returned'
 			with (result) {
 				id == ID
-				date == new Date(0L)
+				date == new Date(TIME)
 				title == TITLE
 				safeTitle == SAFE_TITLE
 				image == IMAGE
