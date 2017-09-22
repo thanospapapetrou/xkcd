@@ -4,11 +4,11 @@ import java.util.logging.Logger
 
 import spock.lang.Specification
 
-import com.github.thanospapapetrou.xkcd.SetterUtils
 import com.github.thanospapapetrou.xkcd.api.Xkcd
+import com.github.thanospapapetrou.xkcd.api.XkcdException
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class LoggingXkcdSpec extends Specification implements SetterUtils {
+class LoggingXkcdSpec extends Specification {
 	private static final int ID = 1024
 
 	private LoggingXkcd loggingXkcd
@@ -35,7 +35,7 @@ class LoggingXkcdSpec extends Specification implements SetterUtils {
 	void 'Retrieving a non existing comic is delegated to the underlying xkcd and a comic not found message is logged as info'() {
 		when: 'comic is retrieved'
 			Comic result = loggingXkcd.getComic(ID)
-		then: 'retrieval is delegated to the underlying xkcd'
+		then: 'underlying xkcd returns no comic'
 			1 * loggingXkcd.xkcd.getComic(ID) >> null
 		and: 'a comic not found message is logged as info'
 			1 * loggingXkcd.logger.info(String.format(LoggingXkcd.COMIC_NOT_FOUND, ID))
@@ -43,6 +43,20 @@ class LoggingXkcdSpec extends Specification implements SetterUtils {
 			0 * _
 		and: 'null is returned'
 			result == null
+	}
+
+	void 'Error retrieving a comic'() {
+		given: 'an xkcd exception'
+			XkcdException xkcdException = Mock(XkcdException)
+		when: 'comic is retrieved'
+			loggingXkcd.getComic(ID)
+		then: 'underlying xkcd fails to retrieve comic'
+			1 * loggingXkcd.xkcd.getComic(ID) >> { throw xkcdException }
+		and: 'no other interactions happen'
+			0 * _
+		and: 'xkcd exception is thrown'
+			XkcdException e = thrown(XkcdException)
+			e == xkcdException
 	}
 
 	void 'Retrieving current comic is delegated to the underlying xkcd and a current comic retrieved message is logged as info'() {
@@ -60,5 +74,19 @@ class LoggingXkcdSpec extends Specification implements SetterUtils {
 			0 * _
 		and: 'comic is returned'
 			result == comic
+	}
+
+	void 'Error retrieving current comic'() {
+		given: 'an xkcd exception'
+			XkcdException xkcdException = Mock(XkcdException)
+		when: 'current comic is retrieved'
+			loggingXkcd.currentComic
+		then: 'underlying xkcd fails to retrieve current comic'
+			1 * loggingXkcd.xkcd.currentComic >> { throw xkcdException }
+		and: 'no other interactions happen'
+			0 * _
+		and: 'xkcd exception is thrown'
+			XkcdException e = thrown(XkcdException)
+			e == xkcdException
 	}
 }

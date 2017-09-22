@@ -21,7 +21,7 @@ class JsonComicMessageBodyWriterSpec extends Specification {
 	private static final URL LINK = new URL('http://www.example.org/link')
 	private static final String NEWS = 'News'
 	private static final String SAFE_TITLE = 'Safe Title'
-	private static final long TIME = 0L
+	private static final long TIME = 1048576L
 	private static final String TITLE = 'Title'
 	private static final String TRANSCRIPT = 'Transcript'
 
@@ -96,8 +96,6 @@ class JsonComicMessageBodyWriterSpec extends Specification {
 			1 * jsonObjectBuilder.build() >> json
 		and: 'JSON object is written to JSON writer'
 			1 * jsonWriter.writeObject(json)
-		and: 'JSON writer is closed'
-			1 * jsonWriter.close()
 		and: 'no other interactions happen'
 			0 * _
 	}
@@ -167,8 +165,6 @@ class JsonComicMessageBodyWriterSpec extends Specification {
 			1 * jsonObjectBuilder.build() >> json
 		and: 'JSON object is written to JSON writer'
 			1 * jsonWriter.writeObject(json)
-		and: 'JSON writer is closed'
-			1 * jsonWriter.close()
 		and: 'no other interactions happen'
 			0 * _
 	}
@@ -238,8 +234,6 @@ class JsonComicMessageBodyWriterSpec extends Specification {
 			1 * jsonObjectBuilder.build() >> json
 		and: 'JSON object is written to JSON writer'
 			1 * jsonWriter.writeObject(json)
-		and: 'JSON writer is closed'
-			1 * jsonWriter.close()
 		and: 'no other interactions happen'
 			0 * _
 	}
@@ -309,8 +303,6 @@ class JsonComicMessageBodyWriterSpec extends Specification {
 			1 * jsonObjectBuilder.build() >> json
 		and: 'JSON object is written to JSON writer'
 			1 * jsonWriter.writeObject(json)
-		and: 'JSON writer is closed'
-			1 * jsonWriter.close()
 		and: 'no other interactions happen'
 			0 * _
 	}
@@ -380,8 +372,6 @@ class JsonComicMessageBodyWriterSpec extends Specification {
 			1 * jsonObjectBuilder.build() >> json
 		and: 'JSON object is written to JSON writer'
 			1 * jsonWriter.writeObject(json)
-		and: 'JSON writer is closed'
-			1 * jsonWriter.close()
 		and: 'no other interactions happen'
 			0 * _
 	}

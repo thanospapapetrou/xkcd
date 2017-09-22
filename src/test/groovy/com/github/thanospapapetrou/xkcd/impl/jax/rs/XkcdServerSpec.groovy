@@ -5,6 +5,7 @@ import javax.ws.rs.NotFoundException
 import spock.lang.Specification
 
 import com.github.thanospapapetrou.xkcd.api.Xkcd
+import com.github.thanospapapetrou.xkcd.api.XkcdException
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
 class XkcdServerSpec extends Specification {
@@ -32,12 +33,26 @@ class XkcdServerSpec extends Specification {
 	void 'Retrieving a non existing comic is delegated to the underlying xkcd and a not found exception is thrown'() {
 		when: 'comic is retrieved'
 			xkcdServer.getComic(ID)
-		then: 'retrieval is delegated to the underlying xkcd'
+		then: 'underlying xkcd returns no comic'
 			1 * xkcdServer.xkcd.getComic(ID) >> null
 		and: 'no other interactions happen'
 			0 * _
 		and: 'a not found exception is thrown'
 			thrown(NotFoundException)
+	}
+
+	void 'Error retrieving a comic'() {
+		given: 'an xkcd exception'
+			XkcdException xkcdException = Mock(XkcdException)
+		when: 'comic is retrieved'
+			xkcdServer.getComic(ID)
+		then: 'underlying xkcd fails to retrieve comic'
+			1 * xkcdServer.xkcd.getComic(ID) >> { throw xkcdException }
+		and: 'no other interactions happen'
+			0 * _
+		and: 'xkcd exception is thrown'
+			XkcdException e = thrown(XkcdException)
+			e == xkcdException
 	}
 
 	void 'Retrieving current comic is delegated to the underlying xkcd'() {
@@ -51,5 +66,19 @@ class XkcdServerSpec extends Specification {
 			0 * _
 		and: 'comic is returned'
 			result == comic
+	}
+
+	void 'Error retrieving current comic'() {
+		given: 'an xkcd exception'
+			XkcdException xkcdException = Mock(XkcdException)
+		when: 'current comic is retrieved'
+			xkcdServer.currentComic
+		then: 'underlying xkcd fails to retrieve current comic'
+			1 * xkcdServer.xkcd.currentComic >> { throw xkcdException }
+		and: 'no other interactions happen'
+			0 * _
+		and: 'xkcd exception is thrown'
+			XkcdException e = thrown(XkcdException)
+			e == xkcdException
 	}
 }

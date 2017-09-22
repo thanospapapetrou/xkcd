@@ -10,11 +10,10 @@ import javax.ws.rs.client.WebTarget
 
 import spock.lang.Specification
 
-import com.github.thanospapapetrou.xkcd.SetterUtils
 import com.github.thanospapapetrou.xkcd.api.XkcdException
 import com.github.thanospapapetrou.xkcd.domain.Comic
 
-class XkcdClientSpec extends Specification implements SetterUtils {
+class XkcdClientSpec extends Specification {
 	private static final URL BASE_URL = new URL('http://www.example.org/')
 	private static final int ID = 1024
 
@@ -81,7 +80,7 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
 			1 * invocationBuilder.buildGet() >> invocation
-		and: 'invocation is invoked'
+		and: 'invocation fails'
 			1 * invocation.invoke(Comic) >> { throw Mock(NotFoundException) }
 		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()
@@ -112,7 +111,7 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
 			1 * invocationBuilder.buildGet() >> invocation
-		and: 'invocation is invoked'
+		and: 'invocation fails'
 			1 * invocation.invoke(Comic) >> { throw webApplicationException }
 		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()
@@ -174,7 +173,7 @@ class XkcdClientSpec extends Specification implements SetterUtils {
 			1 * target.request(XkcdClient.APPLICATION_JSON_CHARSET_UTF_8) >> invocationBuilder
 		and: 'a JAX-RS GET invocation is created'
 			1 * invocationBuilder.buildGet() >> invocation
-		and: 'invocation is invoked'
+		and: 'invocation fails'
 			1 * invocation.invoke(Comic) >> { throw webApplicationException }
 		and: 'the JAX-RS target URI is retrieved'
 			1 * target.uri >> BASE_URL.toURI()

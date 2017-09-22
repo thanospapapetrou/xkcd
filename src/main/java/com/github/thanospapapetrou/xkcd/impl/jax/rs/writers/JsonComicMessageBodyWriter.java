@@ -10,7 +10,6 @@ import java.util.Objects;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
@@ -73,8 +72,6 @@ public class JsonComicMessageBodyWriter extends AbstractComicMessageBodyWriter {
 		json = (link == null) ? json.addNull(LINK) : json.add(LINK, link.toString());
 		final String news = comic.getNews();
 		json = (news == null) ? json.addNull(NEWS) : json.add(NEWS, news);
-		try (final JsonWriter writer = jsonWriterFactory.createWriter(output, StandardCharsets.UTF_8)) {
-			writer.writeObject(json.build());
-		}
+		jsonWriterFactory.createWriter(output, StandardCharsets.UTF_8).writeObject(json.build());
 	}
 }

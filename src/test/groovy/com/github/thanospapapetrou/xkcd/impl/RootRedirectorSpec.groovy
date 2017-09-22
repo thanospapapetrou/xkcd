@@ -21,4 +21,20 @@ class RootRedirectorSpec extends Specification {
 		and: 'no other interactions happen'
 			0 * _
 	}
+
+	void 'Error redirecting to current comic while accessing root path'() {
+		given: 'an HTTP servlet response'
+			HttpServletResponse response = Mock(HttpServletResponse)
+		and: 'an IO exception'
+			IOException ioException = Mock(IOException)
+		when: 'an HTTP GET request is performed on web application root path'
+			rootRedirector.doGet(null, response)
+		then: 'redirection to current comic fails'
+			1 * response.sendRedirect(RootRedirector.CURRENT_COMIC) >> { throw ioException }
+		and: 'no other interactions happen'
+			0 * _
+		and: 'IO exception is thrown'
+			IOException e = thrown(IOException)
+			e == ioException
+	}
 }

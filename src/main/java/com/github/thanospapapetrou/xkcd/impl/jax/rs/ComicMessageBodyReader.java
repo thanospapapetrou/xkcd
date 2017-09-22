@@ -1,9 +1,9 @@
 package com.github.thanospapapetrou.xkcd.impl.jax.rs;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -82,7 +82,7 @@ public class ComicMessageBodyReader implements MessageBodyReader<Comic> {
 	}
 
 	@Override
-	public Comic readFrom(final Class<Comic> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, String> httpHeaders, final InputStream input) throws IOException {
+	public Comic readFrom(final Class<Comic> clazz, final Type type, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, String> httpHeaders, final InputStream input) throws MalformedURLException {
 		Objects.requireNonNull(input, NULL_INPUT);
 		final JsonObject json = jsonReaderFactory.createReader(input, getCharset(mediaType)).readObject();
 		final Calendar calendar = this.calendar.get();
