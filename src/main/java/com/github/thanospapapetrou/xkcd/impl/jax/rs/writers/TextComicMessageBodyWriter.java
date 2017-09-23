@@ -36,8 +36,11 @@ public class TextComicMessageBodyWriter extends AbstractComicMessageBodyWriter {
 		Objects.requireNonNull(httpHeaders, NULL_HTTP_HEADERS);
 		Objects.requireNonNull(output, NULL_OUTPUT);
 		httpHeaders.putSingle(HttpHeaders.CONTENT_TYPE, TEXT_PLAIN_CHARSET_UTF_8);
-		try (final OutputStreamWriter writer = new OutputStreamWriter(output, StandardCharsets.UTF_8)) {
-			writer.write(String.format(FORMAT, comic.getTitle(), comic.getTranscript()));
-		}
+		createOutputStreamWriter(output).write(String.format(FORMAT, comic.getTitle(), comic.getTranscript()));
+	}
+
+	OutputStreamWriter createOutputStreamWriter(final OutputStream output) {
+		// this method is package private just for testing
+		return new OutputStreamWriter(output, StandardCharsets.UTF_8);
 	}
 }
