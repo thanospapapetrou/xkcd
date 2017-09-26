@@ -54,10 +54,10 @@
 		<project.info.reports.version>2.9</project.info.reports.version>
 		<servlet.version>3.1.0</servlet.version>
 		<sonar.version>3.0.2</sonar.version>
-		<source.version>1.7</source.version>
+		<source.version>1.8</source.version>
 		<spock.version>1.1-groovy-2.4</spock.version>
 		<surefire.version>2.20</surefire.version>
-		<target.version>1.7</target.version>
+		<target.version>1.8</target.version>
 		<tomcat.version>8.5.12</tomcat.version>
 		<weld.version>2.4.2.SP1</weld.version>
 	</properties>
@@ -213,10 +213,10 @@
 							<version>${tomcat.version}</version>
 						</artifactInstaller>
 						<!-- systemProperties>
-							<xkcd.base.url>https://xkcd.com/</xkcd.base.url> 
+							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
 							<xkcd.caching>JPA</xkcd.caching>
-							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file> 
-							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver> 
+							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
+							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
 							<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
 						</systemProperties -->
 					</container>
@@ -271,7 +271,7 @@
 					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
 					<maxPriority1Violations>0</maxPriority1Violations>
 					<maxPriority2Violations>0</maxPriority2Violations>
-					<maxPriority3Violations>0</maxPriority3Violations>
+					<maxPriority3Violations>3</maxPriority3Violations>
 				</configuration>
 				<executions>
 					<execution>
@@ -310,7 +310,7 @@
 								<rule>
 									<limits>
 										<limit>
-											<minimum>1.0</minimum>
+											<minimum>0.0</minimum>
 										</limit>
 									</limits>
 								</rule>
@@ -319,7 +319,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!-- plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>${sonar.version}</version>
@@ -331,7 +331,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin -->
 		</plugins>
 	</build>
 	<reporting>
@@ -363,7 +363,7 @@
 					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
 					<maxPriority1Violations>0</maxPriority1Violations>
 					<maxPriority2Violations>0</maxPriority2Violations>
-					<maxPriority3Violations>0</maxPriority3Violations>
+					<maxPriority3Violations>3</maxPriority3Violations>
 				</configuration>
 			</plugin>
 		</plugins>
