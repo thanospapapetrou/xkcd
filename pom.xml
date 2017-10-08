@@ -37,7 +37,7 @@
 		<compiler.version>3.6.1</compiler.version>
 		<derby.version>10.12.1.1</derby.version>
 		<eclipselink.version>2.6.4</eclipselink.version>
-		<glassfish-json.version>1.0.4</glassfish-json.version>
+		<glassfish-json.version>1.1</glassfish-json.version>
 		<gmavenplus.version>1.5</gmavenplus.version>
 		<gmetrics.version>0.7</gmetrics.version>
 		<groovy.version>2.4.11</groovy.version>
@@ -47,30 +47,30 @@
 		<jstl.version>1.2</jstl.version>
 		<jersey.version>2.25.1</jersey.version>
 		<jpa.version>2.1.1</jpa.version>
-		<json.version>1.0</json.version>
+		<json-p.version>1.1</json-p.version>
 		<jxr.version>2.5</jxr.version>
 		<objenesis.version>2.6</objenesis.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.info.reports.version>2.9</project.info.reports.version>
-		<servlet.version>3.1.0</servlet.version>
+		<servlet.version>3.1.0</servlet.version> <!-- TODO upgrade to 4.0.0 once Tomcat 9.0.x is stable -->
 		<sonar.version>3.0.2</sonar.version>
 		<source.version>1.8</source.version>
 		<spock.version>1.1-groovy-2.4</spock.version>
 		<surefire.version>2.20</surefire.version>
 		<target.version>1.8</target.version>
-		<tomcat.version>8.5.12</tomcat.version>
+		<tomcat.version>8.5.12</tomcat.version> <!-- TODO upgrade to 9.0.1 once stable -->
 		<weld.version>2.4.2.SP1</weld.version>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>javax.enterprise</groupId>
+			<groupId>javax.enterprise</groupId> <!-- TODO update -->
 			<artifactId>cdi-api</artifactId>
 			<version>${cdi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.json</groupId>
 			<artifactId>javax.json-api</artifactId>
-			<version>${json.version}</version>
+			<version>${json-p.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -79,35 +79,35 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
+			<groupId>javax.servlet</groupId> <!-- TODO update -->
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.ws.rs</groupId>
+			<groupId>javax.ws.rs</groupId> <!-- TODO update -->
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>${jax-rs.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.derby</groupId>
+			<groupId>org.apache.derby</groupId> <!-- TODO update -->
 			<artifactId>derby</artifactId>
 			<version>${derby.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
+			<groupId>org.codehaus.groovy</groupId> <!-- TODO update -->
 			<artifactId>groovy-all</artifactId>
 			<version>${groovy.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
+			<groupId>org.eclipse.persistence</groupId> <!-- TODO update -->
 			<artifactId>javax.persistence</artifactId>
 			<version>${jpa.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
+			<groupId>org.eclipse.persistence</groupId> <!-- TODO update -->
 			<artifactId>eclipselink</artifactId>
 			<version>${eclipselink.version}</version>
 			<scope>runtime</scope>
@@ -119,37 +119,37 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
+			<groupId>org.glassfish.jersey.containers</groupId> <!-- TODO update -->
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>${jersey.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jersey.ext.cdi</groupId>
+			<groupId>org.glassfish.jersey.ext.cdi</groupId> <!-- TODO update -->
 			<artifactId>jersey-cdi1x-servlet</artifactId>
 			<version>${jersey.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.weld.servlet</groupId>
+			<groupId>org.jboss.weld.servlet</groupId> <!-- TODO update -->
 			<artifactId>weld-servlet</artifactId>
 			<version>${weld.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.objenesis</groupId>
+			<groupId>org.objenesis</groupId> <!-- TODO update -->
 			<artifactId>objenesis</artifactId>
 			<version>${objenesis.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.spockframework</groupId>
+			<groupId>org.spockframework</groupId> <!-- TODO update -->
 			<artifactId>spock-core</artifactId>
 			<version>${spock.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.bytebuddy</groupId>
+			<groupId>net.bytebuddy</groupId> <!-- TODO update -->
 			<artifactId>byte-buddy</artifactId>
 			<version>${byte-buddy.version}</version>
 			<scope>test</scope>
