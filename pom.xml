@@ -30,34 +30,35 @@
 	</developers>
 	<properties>
 		<byte-buddy.version>1.7.5</byte-buddy.version>
-		<cargo.version>1.6.2</cargo.version> <!-- TODO update -->
+		<cargo.plugin.version>1.6.2</cargo.plugin.version> <!-- TODO update -->
 		<cdi.version>1.2</cdi.version> <!-- TODO update -->
-		<checkstyle.version>2.17</checkstyle.version> <!-- TODO update -->
-		<codenarc.version>0.22-1</codenarc.version> <!-- TODO update -->
-		<compiler.version>3.6.1</compiler.version> <!-- TODO update -->
+		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+		<checkstyle.version>8.3</checkstyle.version>
+		<codenarc.plugin.version>0.22-1</codenarc.plugin.version> <!-- TODO update -->
+		<compiler.plugin.version>3.7.0</compiler.plugin.version>
 		<derby.version>10.12.1.1</derby.version> <!-- TODO update -->
 		<eclipselink.version>2.6.4</eclipselink.version> <!-- TODO update -->
 		<glassfish-json.version>1.1</glassfish-json.version>
-		<gmavenplus.version>1.5</gmavenplus.version> <!-- TODO update -->
+		<gmavenplus.plugin.version>1.6</gmavenplus.plugin.version>
 		<gmetrics.version>0.7</gmetrics.version> <!-- TODO update -->
 		<groovy.version>2.4.12</groovy.version>
-		<jacoco.version>0.7.9</jacoco.version> <!-- TODO update -->
-		<javadoc.version>2.10.4</javadoc.version> <!-- TODO update -->
+		<jacoco.plugin.version>0.7.9</jacoco.plugin.version> <!-- TODO update -->
+		<javadoc.plugin.version>2.10.4</javadoc.plugin.version>
 		<jax-rs.version>2.0.1</jax-rs.version> <!-- TODO update -->
 		<jstl.version>1.2</jstl.version> <!-- TODO update -->
 		<jersey.version>2.25.1</jersey.version> <!-- TODO update -->
 		<jpa.version>2.1.1</jpa.version> <!-- TODO update -->
 		<json-p.version>1.1</json-p.version>
-		<jxr.version>2.5</jxr.version> <!-- TODO update -->
+		<jxr.plugin.version>2.5</jxr.plugin.version>
 		<objenesis.version>2.6</objenesis.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.info.reports.version>2.9</project.info.reports.version> <!-- TODO update -->
+		<project.info.reports.version>2.9</project.info.reports.version>
 		<servlet.version>3.1.0</servlet.version> <!-- TODO upgrade to 4.0.0 once Tomcat 9.0.x is stable -->
 		<sonar.version>3.0.2</sonar.version> <!-- TODO update -->
-		<source.version>1.8</source.version>
+		<source.version>1.8</source.version> <!-- TODO upgrade to 1.9 -->
 		<spock.version>1.1-groovy-2.4</spock.version>
-		<surefire.version>2.20</surefire.version> <!-- TODO update -->
-		<target.version>1.8</target.version>
+		<surefire.version>2.20.1</surefire.version>
+		<target.version>1.8</target.version> <!-- TODO upgrade to 1.9 -->
 		<tomcat.version>8.5.12</tomcat.version> <!-- TODO upgrade to 9.0.1 once stable -->
 		<weld.version>2.4.2.SP1</weld.version> <!-- TODO update -->
 	</properties>
@@ -160,21 +161,20 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${checkstyle.version}</version>
+				<version>${checkstyle.plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle.version}</version>
+					</dependency>
+				</dependencies>
 				<configuration>
-					<configLocation>${project.basedir}/checkstyle.xml</configLocation>
+					<configLocation>${project.basedir}/checkstyle.xml</configLocation> <!-- TODO remove? -->
 				</configuration>
 				<executions>
 					<execution>
-						<id>checkstyle-checkstyle</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>checkstyle</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>checkstyle-check</id>
-						<phase>verify</phase>
+						<phase>validate</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -184,7 +184,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler.version}</version>
+				<version>${compiler.plugin.version}</version>
 				<configuration>
 					<source>${source.version}</source>
 					<target>${target.version}</target>
@@ -200,10 +200,10 @@
 					</includes>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>${cargo.version}</version>
+				<version>${cargo.plugin.version}</version>
 				<configuration>
 					<container>
 						<containerId>tomcat8x</containerId>
@@ -211,7 +211,7 @@
 							<groupId>org.apache.tomcat</groupId>
 							<artifactId>tomcat</artifactId>
 							<version>${tomcat.version}</version>
-						</artifactInstaller>
+						</artifactInstaller -->
 						<!-- systemProperties>
 							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
 							<xkcd.caching>JPA</xkcd.caching>
@@ -219,7 +219,7 @@
 							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
 							<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
 						</systemProperties -->
-					</container>
+					<!-- /container>
 					<configuration>
 						<properties>
 							<cargo.start.jvmargs>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000 -Xnoagent -Djava.compiler=NONE</cargo.start.jvmargs>
@@ -242,23 +242,23 @@
 						</configfiles>
 					</configuration>
 				</configuration>
-			</plugin>
+			</plugin -->
 			<plugin>
 				<groupId>org.codehaus.gmavenplus</groupId>
 				<artifactId>gmavenplus-plugin</artifactId>
-				<version>${gmavenplus.version}</version>
+				<version>${gmavenplus.plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>testCompile</goal>
+							<goal>compileTests</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!-- plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>codenarc-maven-plugin</artifactId>
-				<version>${codenarc.version}</version>
+				<version>${codenarc.plugin.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.gmetrics</groupId>
@@ -281,11 +281,11 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
+			</plugin -->
+			<!-- plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
+				<version>${jacoco.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>jacoco-prepare-agent</id>
@@ -318,7 +318,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin -->
 			<!-- plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
@@ -338,13 +338,25 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${checkstyle.plugin.version}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>checkstyle</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${javadoc.version}</version>
+				<version>${javadoc.plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>${jxr.version}</version>
+				<version>${jxr.plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -354,10 +366,10 @@
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>codenarc-maven-plugin</artifactId>
-				<version>${codenarc.version}</version>
+				<version>${codenarc.plugin.version}</version>
 				<configuration>
 					<sourceDirectory>${project.basedir}/src/test/groovy</sourceDirectory>
 					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
@@ -365,7 +377,7 @@
 					<maxPriority2Violations>0</maxPriority2Violations>
 					<maxPriority3Violations>3</maxPriority3Violations>
 				</configuration>
-			</plugin>
+			</plugin -->
 		</plugins>
 	</reporting>
 </project>
