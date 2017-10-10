@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.thanospapapetrou</groupId>
 	<artifactId>xkcd</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>xkcd</name>
 	<description>A webcomic of romance, sarcasm, math, and language.</description>
@@ -31,28 +31,19 @@
 	<properties>
 		<byte-buddy.version>1.7.1</byte-buddy.version>
 		<cargo.version>1.6.2</cargo.version>
-		<cdi.version>1.2</cdi.version>
 		<checkstyle.version>2.17</checkstyle.version>
 		<codenarc.version>0.22-1</codenarc.version>
 		<compiler.version>3.6.1</compiler.version>
-		<derby.version>10.12.1.1</derby.version>
-		<eclipselink.version>2.6.4</eclipselink.version>
 		<glassfish-json.version>1.0.4</glassfish-json.version>
 		<gmavenplus.version>1.5</gmavenplus.version>
 		<gmetrics.version>0.7</gmetrics.version>
-		<groovy.version>2.4.11</groovy.version>
 		<jacoco.version>0.7.9</jacoco.version>
 		<javadoc.version>2.10.4</javadoc.version>
-		<jax-rs.version>2.0.1</jax-rs.version>
-		<jstl.version>1.2</jstl.version>
 		<jersey.version>2.25.1</jersey.version>
-		<jpa.version>2.1.1</jpa.version>
-		<json.version>1.0</json.version>
 		<jxr.version>2.5</jxr.version>
 		<objenesis.version>2.6</objenesis.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.info.reports.version>2.9</project.info.reports.version>
-		<servlet.version>3.1.0</servlet.version>
 		<sonar.version>3.0.2</sonar.version>
 		<source.version>1.8</source.version>
 		<spock.version>1.1-groovy-2.4</spock.version>
@@ -65,93 +56,93 @@
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
-			<version>${cdi.version}</version>
+			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.json</groupId>
 			<artifactId>javax.json-api</artifactId>
-			<version>${json.version}</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet.version}</version>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
+			<version>1.2</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>${jax-rs.version}</version>
+			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
-			<version>${derby.version}</version>
+			<version>10.12.1.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>${groovy.version}</version>
+			<version>2.4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>javax.persistence</artifactId>
-			<version>${jpa.version}</version>
+			<version>2.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>
-			<version>${eclipselink.version}</version>
+			<version>2.6.4</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
-			<version>${glassfish-json.version}</version>
+			<version>1.0.4</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
-			<version>${jersey.version}</version>
+			<version>2.25.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.ext.cdi</groupId>
 			<artifactId>jersey-cdi1x-servlet</artifactId>
-			<version>${jersey.version}</version>
+			<version>2.25.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
-			<version>${weld.version}</version>
+			<version>2.4.2.SP1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.objenesis</groupId>
 			<artifactId>objenesis</artifactId>
-			<version>${objenesis.version}</version>
+			<version>2.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-core</artifactId>
-			<version>${spock.version}</version>
+			<version>1.1-groovy-2.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
-			<version>${byte-buddy.version}</version>
+			<version>1.7.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
