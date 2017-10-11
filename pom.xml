@@ -229,6 +229,19 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>${sonar.version}</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>sonar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin -->
 			<plugin>
 				<groupId>org.jacoco</groupId><!-- TODO -->
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -266,19 +279,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>${sonar.version}</version>
-				<executions>
-					<execution>
-						<phase>verify</phase>
-						<goals>
-							<goal>sonar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin -->
 		</plugins>
 	</build>
 	<reporting>
@@ -316,12 +316,12 @@
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
 			</plugin>
-			<plugin><!-- TODO requires slf4j-api -->
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>codenarc-maven-plugin</artifactId>
 				<version>0.22-1</version>
 				<configuration>
-					<codeNarcVersion>1.0</codeNarcVersion>
+					<codeNarcVersion>0.27.0</codeNarcVersion>
 					<groovyVersion>2.4.12</groovyVersion>
 					<sourceDirectory>${project.basedir}/src/test/groovy</sourceDirectory>
 					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
