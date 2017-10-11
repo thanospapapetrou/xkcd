@@ -32,7 +32,6 @@
 		<cargo.version>1.6.2</cargo.version>
 		<jacoco.version>0.7.9</jacoco.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.info.reports.version>2.9</project.info.reports.version>
 		<sonar.version>3.0.2</sonar.version>
 		<tomcat.version>8.5.12</tomcat.version>
 	</properties>
@@ -308,13 +307,10 @@
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>2.5</version>
 			</plugin>
-			<plugin><!-- TODO -->
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>${project.info.reports.version}</version>
-				<configuration>
-					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-				</configuration>
+				<version>2.9</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
