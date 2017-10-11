@@ -30,7 +30,6 @@
 	</developers>
 	<properties>
 		<cargo.version>1.6.2</cargo.version>
-		<jacoco.version>0.7.9</jacoco.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.version>3.0.2</sonar.version>
 		<tomcat.version>8.5.12</tomcat.version>
@@ -242,26 +241,13 @@
 				</executions>
 			</plugin -->
 			<plugin>
-				<groupId>org.jacoco</groupId><!-- TODO -->
+				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
+				<version>0.7.9</version>
 				<executions>
 					<execution>
-						<id>jacoco-prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-check</id>
-						<goals>
 							<goal>check</goal>
 						</goals>
 						<configuration>
@@ -269,7 +255,7 @@
 								<rule>
 									<limits>
 										<limit>
-											<minimum>0.0</minimum>
+											<minimum>0.2</minimum>
 										</limit>
 									</limits>
 								</rule>
@@ -325,6 +311,18 @@
 					<maxPriority2Violations>0</maxPriority2Violations>
 					<maxPriority3Violations>3</maxPriority3Violations>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.9</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 		</plugins>
 	</reporting>
