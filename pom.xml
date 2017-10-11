@@ -127,6 +127,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<defaultGoal>verify</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -288,6 +289,7 @@
 		<profile>
 			<id>cargo</id>
 			<build>
+				<defaultGoal>verify</defaultGoal>
 				<plugins>
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
