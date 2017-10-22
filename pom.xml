@@ -84,6 +84,12 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.gebish</groupId>
+			<artifactId>geb-spock</artifactId>
+			<version>1.1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
 			<version>1.0.4</version>
@@ -111,6 +117,12 @@
 			<groupId>org.objenesis</groupId>
 			<artifactId>objenesis</artifactId>
 			<version>2.6</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+			<version>3.6.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -162,6 +174,46 @@
 				</configuration>
 			</plugin>
 			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.20.1</version>
+					<configuration>
+						<testSourceDirectory>${project.basedir}/src/it/groovy</testSourceDirectory>
+						<testClassesDirectory>${project.build.directory}/it-classes</testClassesDirectory>
+						<includes>
+							<include>**/*Spec.class</include>
+						</includes>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+			</plugin>
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.0.2</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>testResources</goal>
+							</goals>
+							<configuration>
+								<resources>
+									<resource>
+										<directory>${project.basedir}/src/it/resources</directory>
+									</resource>
+								</resources>
+								<outputDirectory>${project.build.directory}/it-classes</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20.1</version>
@@ -172,14 +224,91 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.6.4</version>
+				<configuration>
+					<container>
+						<containerId>tomcat8x</containerId>
+						<artifactInstaller>
+							<groupId>org.apache.tomcat</groupId>
+							<artifactId>tomcat</artifactId>
+							<version>8.5.23</version>
+						</artifactInstaller>
+						<!-- systemProperties>
+							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
+							<xkcd.caching>JPA</xkcd.caching>
+							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
+							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
+							<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
+						</systemProperties -->
+					</container>
+					<configuration>
+						<configfiles>
+							<configfile>
+								<file>${project.basedir}/logging.properties</file>
+								<todir>conf</todir>
+							</configfile>
+						</configfiles>
+					</configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-tomcat</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-tomcat</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.gmavenplus</groupId>
 				<artifactId>gmavenplus-plugin</artifactId>
 				<version>1.6</version>
 				<executions>
 					<execution>
+						<id>compile-test</id>
 						<goals>
+							<goal>addTestSources</goal>
 							<goal>compileTests</goal>
 						</goals>
+						<configuration>
+							<testSources>
+								<testSource>
+									<directory>${project.basedir}/src/test/groovy</directory>
+									<includes>
+										<include>**/*Spec.groovy</include>
+									</includes>
+								</testSource>
+							</testSources>
+							<outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>compile-it</id>
+						<goals>
+							<goal>addTestSources</goal>
+							<goal>compileTests</goal>
+						</goals>
+						<configuration>
+							<testSources>
+								<testSource>
+									<directory>${project.basedir}/src/it/groovy</directory>
+									<includes>
+										<include>**/*Spec.groovy</include>
+									</includes>
+								</testSource>
+							</testSources>
+							<outputDirectory>${project.build.directory}/it-classes</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -219,6 +348,29 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.webdriverextensions</groupId>
+				<artifactId>webdriverextensions-maven-plugin</artifactId>
+				<version>3.1.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install-drivers</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<installationDirectory>${project.build.directory}/drivers</installationDirectory>
+					<drivers>
+						<driver>
+							<name>chromedriver</name>
+							<platform>mac</platform>
+							<bit>64</bit>
+							<version>2.33</version>
+						</driver>
+					</drivers>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
