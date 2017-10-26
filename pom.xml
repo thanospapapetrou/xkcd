@@ -28,136 +28,352 @@
 			<timezone>Europe/Athens</timezone>
 		</developer>
 	</developers>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>javax.enterprise</groupId>
+				<artifactId>cdi-api</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.json</groupId>
+				<artifactId>javax.json-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derby</artifactId>
+				<version>10.12.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy-all</artifactId>
+				<version>2.4.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>2.6.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>javax.persistence</artifactId>
+				<version>2.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.gebish</groupId>
+				<artifactId>geb-spock</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish</groupId>
+				<artifactId>javax.json</artifactId>
+				<version>1.0.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-servlet</artifactId>
+				<version>2.25.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.ext.cdi</groupId>
+				<artifactId>jersey-cdi1x-servlet</artifactId>
+				<version>2.25.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.weld.servlet</groupId>
+				<artifactId>weld-servlet</artifactId>
+				<version>2.4.2.SP1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.objenesis</groupId>
+				<artifactId>objenesis</artifactId>
+				<version>2.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-chrome-driver</artifactId>
+				<version>3.6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.spockframework</groupId>
+				<artifactId>spock-core</artifactId>
+				<version>1.1-groovy-2.4</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.11</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+			</dependency>
+			<dependency>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy</artifactId>
+				<version>1.7.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<sonar.version>3.0.2</sonar.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
-			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.json</groupId>
 			<artifactId>javax.json-api</artifactId>
-			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
-			<version>10.12.1.1</version>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>2.4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>javax.persistence</artifactId>
-			<version>2.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>
-			<version>2.6.4</version>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.gebish</groupId>
-			<artifactId>geb-spock</artifactId>
-			<version>1.1.1</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
-			<version>1.0.4</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
-			<version>2.25.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.ext.cdi</groupId>
 			<artifactId>jersey-cdi1x-servlet</artifactId>
-			<version>2.25.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
-			<version>2.4.2.SP1</version>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.gebish</groupId>
+			<artifactId>geb-spock</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.objenesis</groupId>
 			<artifactId>objenesis</artifactId>
-			<version>2.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-chrome-driver</artifactId>
-			<version>3.6.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-core</artifactId>
-			<version>1.1-groovy-2.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
-			<version>1.7.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
 		<defaultGoal>verify</defaultGoal>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.17</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>8.3</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<configLocation>${project.basedir}/checkstyle.xml</configLocation>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.7.0</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.20.1</version>
+					<configuration>
+						<testSourceDirectory>${project.basedir}/src/it/groovy</testSourceDirectory> <!-- TODO -->
+						<testClassesDirectory>${project.build.directory}/it-classes</testClassesDirectory> <!-- TODO -->
+						<includes>
+							<include>**/*Spec.class</include>
+						</includes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.0.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.20.1</version>
+					<configuration>
+						<includes>
+							<include>**/*Spec.class</include>
+						</includes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.cargo</groupId>
+					<artifactId>cargo-maven2-plugin</artifactId>
+					<version>1.6.4</version>
+					<configuration>
+						<container>
+							<containerId>tomcat8x</containerId>
+							<artifactInstaller>
+								<groupId>org.apache.tomcat</groupId>
+								<artifactId>tomcat</artifactId>
+								<version>8.5.23</version>
+							</artifactInstaller>
+							<!-- systemProperties>
+								<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
+								<xkcd.caching>JPA</xkcd.caching>
+								<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
+								<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
+								<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
+							</systemProperties -->
+						</container>
+						<configuration>
+							<properties>
+								<cargo.start.jvmargs>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000 -Xnoagent -Djava.compiler=NONE</cargo.start.jvmargs>
+							</properties>
+							<users>
+								<user>
+									<name>tomcat</name>
+									<password>t0mc@t</password>
+									<roles>
+										<role>admin-gui</role>
+										<role>manager-gui</role>
+									</roles>
+								</user>
+							</users>
+							<configfiles>
+								<configfile>
+									<file>${project.basedir}/logging.properties</file>
+									<todir>conf</todir>
+								</configfile>
+							</configfiles>
+						</configuration>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.gmavenplus</groupId>
+					<artifactId>gmavenplus-plugin</artifactId>
+					<version>1.6</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-all</artifactId>
+							<version>2.4.12</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<!-- plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar.version}</version>
+				</plugin -->
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.9</version>
+					<configuration>
+						<rules>
+							<rule>
+								<limits>
+									<limit>
+										<minimum>0.2</minimum>
+									</limit>
+								</limits>
+							</rule>
+						</rules>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.github.webdriverextensions</groupId>
+					<artifactId>webdriverextensions-maven-plugin</artifactId>
+					<version>3.1.2</version>
+					<configuration>
+						<installationDirectory>${project.build.directory}/drivers</installationDirectory>
+						<drivers>
+							<driver>
+								<name>chromedriver</name>
+								<platform>mac</platform>
+								<bit>64</bit>
+								<version>2.33</version>
+							</driver>
+						</drivers>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>8.3</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<configLocation>${project.basedir}/checkstyle.xml</configLocation>
-				</configuration>
 				<executions>
 					<execution>
-						<phase>validate</phase>
+						<phase>validate</phase> <!-- TODO check phase? -->
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -166,92 +382,153 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution> <!-- TODO remove? -->
+						<id>process-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>resources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/main/resources</directory> <!-- TODO -->
+								</resource>
+							</resources>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory> <!-- TODO -->
+						</configuration>
+					</execution>
+					<execution> <!-- TODO remove -->
+						<id>process-test-resources</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>testResources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/test/resources</directory> <!-- TODO -->
+								</resource>
+							</resources>
+							<outputDirectory>${project.build.directory}/test-classes</outputDirectory> <!-- TODO -->
+						</configuration>
+					</execution>
+					<execution>
+						<id>process-it-resources</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>testResources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/it/resources</directory> <!-- TODO -->
+								</resource>
+							</resources>
+							<outputDirectory>${project.build.directory}/it-classes</outputDirectory> <!-- TODO -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
 			</plugin>
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>2.20.1</version>
-					<configuration>
-						<testSourceDirectory>${project.basedir}/src/it/groovy</testSourceDirectory>
-						<testClassesDirectory>${project.build.directory}/it-classes</testClassesDirectory>
-						<includes>
-							<include>**/*Spec.class</include>
-						</includes>
-					</configuration>
-					<executions>
-						<execution>
-							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
-							</goals>
-						</execution>
-					</executions>
+				<groupId>org.codehaus.gmavenplus</groupId>
+				<artifactId>gmavenplus-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>initialize-test</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>addTestSources</goal>
+						</goals>
+						<configuration>
+							<testSources>
+								<testSource>
+									<directory>${project.basedir}/src/test/groovy</directory> <!-- TODO -->
+									<includes>
+										<include>**/*Spec.groovy</include>
+									</includes>
+								</testSource>
+							</testSources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>compile-test</id>
+						<goals>
+							<goal>compileTests</goal>
+						</goals>
+						<configuration>
+							<testSources>
+								<testSource>
+									<directory>${project.basedir}/src/test/groovy</directory> <!-- TODO -->
+									<includes>
+										<include>**/*Spec.groovy</include>
+									</includes>
+								</testSource>
+							</testSources>
+							<outputDirectory>${project.build.directory}/test-classes</outputDirectory> <!-- TODO -->
+						</configuration>
+					</execution>
+					<execution>
+						<id>initialize-it</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>addTestSources</goal>
+						</goals>
+						<configuration>
+							<testSources>
+								<testSource>
+									<directory>${project.basedir}/src/it/groovy</directory> <!-- TODO -->
+									<includes>
+										<include>**/*Spec.groovy</include>
+									</includes>
+								</testSource>
+							</testSources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>compile-it</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>compileTests</goal>
+						</goals>
+						<configuration>
+							<testSources>
+								<testSource>
+									<directory>${project.basedir}/src/it/groovy</directory> <!-- TODO -->
+									<includes>
+										<include>**/*Spec.groovy</include>
+									</includes>
+								</testSource>
+							</testSources>
+							<outputDirectory>${project.build.directory}/it-classes</outputDirectory> <!-- TODO -->
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.0.2</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>testResources</goal>
-							</goals>
-							<configuration>
-								<resources>
-									<resource>
-										<directory>${project.basedir}/src/it/resources</directory>
-									</resource>
-								</resources>
-								<outputDirectory>${project.build.directory}/it-classes</outputDirectory>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal> <!-- TODO change phase? -->
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.20.1</version>
-				<configuration>
-					<includes>
-						<include>**/*Spec.class</include>
-					</includes>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.6.4</version>
-				<configuration>
-					<container>
-						<containerId>tomcat8x</containerId>
-						<artifactInstaller>
-							<groupId>org.apache.tomcat</groupId>
-							<artifactId>tomcat</artifactId>
-							<version>8.5.23</version>
-						</artifactInstaller>
-						<!-- systemProperties>
-							<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
-							<xkcd.caching>JPA</xkcd.caching>
-							<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
-							<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
-							<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
-						</systemProperties -->
-					</container>
-					<configuration>
-						<configfiles>
-							<configfile>
-								<file>${project.basedir}/logging.properties</file>
-								<todir>conf</todir>
-							</configfile>
-						</configfiles>
-					</configuration>
-				</configuration>
 				<executions>
 					<execution>
 						<id>start-tomcat</id>
@@ -270,52 +547,32 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.gmavenplus</groupId>
-				<artifactId>gmavenplus-plugin</artifactId>
-				<version>1.6</version>
+				<groupId>com.github.webdriverextensions</groupId>
+				<artifactId>webdriverextensions-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>compile-test</id>
+						<phase>pre-integration-test</phase>
 						<goals>
-							<goal>addTestSources</goal>
-							<goal>compileTests</goal>
+							<goal>install-drivers</goal>
 						</goals>
-						<configuration>
-							<testSources>
-								<testSource>
-									<directory>${project.basedir}/src/test/groovy</directory>
-									<includes>
-										<include>**/*Spec.groovy</include>
-									</includes>
-								</testSource>
-							</testSources>
-							<outputDirectory>${project.build.directory}/test-classes</outputDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>compile-it</id>
-						<goals>
-							<goal>addTestSources</goal>
-							<goal>compileTests</goal>
-						</goals>
-						<configuration>
-							<testSources>
-								<testSource>
-									<directory>${project.basedir}/src/it/groovy</directory>
-									<includes>
-										<include>**/*Spec.groovy</include>
-									</includes>
-								</testSource>
-							</testSources>
-							<outputDirectory>${project.build.directory}/it-classes</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-			<!-- plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- plugin> TODO
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>${sonar.version}</version>
 				<executions>
 					<execution>
 						<phase>verify</phase>
@@ -325,53 +582,6 @@
 					</execution>
 				</executions>
 			</plugin -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<rule>
-									<limits>
-										<limit>
-											<minimum>0.2</minimum>
-										</limit>
-									</limits>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.github.webdriverextensions</groupId>
-				<artifactId>webdriverextensions-maven-plugin</artifactId>
-				<version>3.1.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>install-drivers</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<installationDirectory>${project.build.directory}/drivers</installationDirectory>
-					<drivers>
-						<driver>
-							<name>chromedriver</name>
-							<platform>mac</platform>
-							<bit>64</bit>
-							<version>2.33</version>
-						</driver>
-					</drivers>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -379,7 +589,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
 				<configuration>
 					<configLocation>${project.basedir}/checkstyle.xml</configLocation>
 				</configuration>
@@ -447,44 +656,6 @@
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
 						<version>1.6.4</version>
-						<configuration>
-							<container>
-								<containerId>tomcat8x</containerId>
-								<artifactInstaller>
-									<groupId>org.apache.tomcat</groupId>
-									<artifactId>tomcat</artifactId>
-									<version>8.5.23</version>
-								</artifactInstaller>
-								<!-- systemProperties>
-									<xkcd.base.url>https://xkcd.com/</xkcd.base.url>
-									<xkcd.caching>JPA</xkcd.caching>
-									<xkcd.configuration.file>${project.basedir}/configuration.properties</xkcd.configuration.file>
-									<xkcd.jdbc.driver>org.apache.derby.jdbc.EmbeddedDriver</xkcd.jdbc.driver>
-									<xkcd.jdbc.url>jdbc:derby:xkcd;create=true</xkcd.jdbc.url>
-								</systemProperties -->
-							</container>
-							<configuration>
-								<properties>
-									<cargo.start.jvmargs>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000 -Xnoagent -Djava.compiler=NONE</cargo.start.jvmargs>
-								</properties>
-								<users>
-									<user>
-										<name>tomcat</name>
-										<password>t0mc@t</password>
-										<roles>
-											<role>admin-gui</role>
-											<role>manager-gui</role>
-										</roles>
-									</user>
-								</users>
-								<configfiles>
-									<configfile>
-										<file>${project.basedir}/logging.properties</file>
-										<todir>conf</todir>
-									</configfile>
-								</configfiles>
-							</configuration>
-						</configuration>
 						<executions>
 							<execution>
 								<phase>verify</phase>
