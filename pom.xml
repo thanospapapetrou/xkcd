@@ -328,11 +328,6 @@
 						</dependency>
 					</dependencies>
 				</plugin>
-				<!-- plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>sonar-maven-plugin</artifactId>
-					<version>${sonar.version}</version>
-				</plugin -->
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
@@ -369,96 +364,13 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>validate</phase> <!-- TODO check phase? -->
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution> <!-- TODO remove? -->
-						<id>process-resources</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>resources</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/src/main/resources</directory> <!-- TODO -->
-								</resource>
-							</resources>
-							<outputDirectory>${project.build.directory}/classes</outputDirectory> <!-- TODO -->
-						</configuration>
-					</execution>
-					<execution> <!-- TODO remove -->
-						<id>process-test-resources</id>
-						<phase>process-test-resources</phase>
-						<goals>
-							<goal>testResources</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/src/test/resources</directory> <!-- TODO -->
-								</resource>
-							</resources>
-							<outputDirectory>${project.build.directory}/test-classes</outputDirectory> <!-- TODO -->
-						</configuration>
-					</execution>
-					<execution>
-						<id>process-it-resources</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>testResources</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/src/it/resources</directory> <!-- TODO -->
-								</resource>
-							</resources>
-							<outputDirectory>${project.build.directory}/it-classes</outputDirectory> <!-- TODO -->
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.gmavenplus</groupId>
 				<artifactId>gmavenplus-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>initialize-test</id>
-						<phase>initialize</phase>
+						<id>test</id>
 						<goals>
 							<goal>addTestSources</goal>
-						</goals>
-						<configuration>
-							<testSources>
-								<testSource>
-									<directory>${project.basedir}/src/test/groovy</directory> <!-- TODO -->
-									<includes>
-										<include>**/*Spec.groovy</include>
-									</includes>
-								</testSource>
-							</testSources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>compile-test</id>
-						<goals>
 							<goal>compileTests</goal>
 						</goals>
 						<configuration>
@@ -474,26 +386,9 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>initialize-it</id>
-						<phase>initialize</phase>
+						<id>it</id>
 						<goals>
 							<goal>addTestSources</goal>
-						</goals>
-						<configuration>
-							<testSources>
-								<testSource>
-									<directory>${project.basedir}/src/it/groovy</directory> <!-- TODO -->
-									<includes>
-										<include>**/*Spec.groovy</include>
-									</includes>
-								</testSource>
-							</testSources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>compile-it</id>
-						<phase>pre-integration-test</phase>
-						<goals>
 							<goal>compileTests</goal>
 						</goals>
 						<configuration>
@@ -516,9 +411,32 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>prepare-agent</goal> <!-- TODO change phase? -->
+							<goal>prepare-agent</goal>
 							<goal>check</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>testResources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/it/resources</directory> <!-- TODO -->
+								</resource>
+							</resources>
+							<outputDirectory>${project.build.directory}/it-classes</outputDirectory> <!-- TODO -->
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -570,18 +488,17 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- plugin> TODO
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>verify</phase>
 						<goals>
-							<goal>sonar</goal>
+							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin -->
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -625,7 +542,7 @@
 				<configuration>
 					<codeNarcVersion>0.27.0</codeNarcVersion>
 					<groovyVersion>2.4.12</groovyVersion>
-					<sourceDirectory>${project.basedir}/src/test/groovy</sourceDirectory>
+					<sourceDirectory>${project.basedir}/src/test/groovy</sourceDirectory> <!-- TODO -->
 					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
 					<maxPriority1Violations>0</maxPriority1Violations>
 					<maxPriority2Violations>0</maxPriority2Violations>
