@@ -234,7 +234,7 @@
 						</dependency>
 					</dependencies>
 					<configuration>
-						<configLocation>${project.basedir}/checkstyle.xml</configLocation>
+						<configLocation>${project.basedir}/checkstyle.xml</configLocation> <!-- TODO -->
 					</configuration>
 				</plugin>
 				<plugin>
@@ -257,6 +257,21 @@
 							<include>**/*Spec.class</include>
 						</includes>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jxr-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>2.9</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -329,6 +344,11 @@
 					</dependencies>
 				</plugin>
 				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>codenarc-maven-plugin</artifactId>
+					<version>0.22-1</version>
+				</plugin>
+				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>0.7.9</version>
@@ -337,7 +357,7 @@
 							<rule>
 								<limits>
 									<limit>
-										<minimum>0.2</minimum>
+										<minimum>0.27</minimum>
 									</limit>
 								</limits>
 							</rule>
@@ -507,7 +527,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>${project.basedir}/checkstyle.xml</configLocation>
+					<configLocation>${project.basedir}/checkstyle.xml</configLocation> <!-- TODO -->
 				</configuration>
 				<reportSets>
 					<reportSet>
@@ -520,17 +540,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.5</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.9</version>
 				<configuration>
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
@@ -538,7 +555,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>codenarc-maven-plugin</artifactId>
-				<version>0.22-1</version>
 				<configuration>
 					<codeNarcVersion>0.27.0</codeNarcVersion>
 					<groovyVersion>2.4.12</groovyVersion>
@@ -552,7 +568,6 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
 				<reportSets>
 					<reportSet>
 						<reports>
