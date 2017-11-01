@@ -469,14 +469,14 @@
 				<artifactId>cargo-maven2-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>start-tomcat</id>
+						<id>startTomcat</id>
 						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>start</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>stop-tomcat</id>
+						<id>stopTomcat</id>
 						<phase>post-integration-test</phase>
 						<goals>
 							<goal>stop</goal>
@@ -558,11 +558,12 @@
 				<configuration>
 					<codeNarcVersion>0.27.0</codeNarcVersion>
 					<groovyVersion>2.4.12</groovyVersion>
-					<sourceDirectory>${project.basedir}/src/test/groovy</sourceDirectory> <!-- TODO -->
 					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
 					<maxPriority1Violations>0</maxPriority1Violations>
-					<maxPriority2Violations>0</maxPriority2Violations>
+					<maxPriority2Violations>1</maxPriority2Violations>
 					<maxPriority3Violations>3</maxPriority3Violations>
+					<sourceDirectory>${project.basedir}</sourceDirectory>
+					<includes>**/src/**/*.groovy</includes>
 				</configuration>
 			</plugin>
 			<plugin>
