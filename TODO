@@ -3,6 +3,4 @@ check primary key restrictions on saving in JDBC and JPA
 1608
 change derby terminator to embedded derby terminator
 use memory derby, if this is the case we may not need derby terminator at all
-add jacoco for it
-add codenarc for it
 
