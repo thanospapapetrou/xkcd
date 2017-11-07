@@ -416,7 +416,7 @@
 								<testSource>
 									<directory>${project.basedir}/src/it/groovy</directory> <!-- TODO -->
 									<includes>
-										<include>**/*Spec.groovy</include>
+										<include>**/*.groovy</include>
 									</includes>
 								</testSource>
 							</testSources>
@@ -571,7 +571,7 @@
 					<groovyVersion>2.4.12</groovyVersion>
 					<rulesetfiles>file://${project.basedir}/codenarc.groovy</rulesetfiles>
 					<maxPriority1Violations>0</maxPriority1Violations>
-					<maxPriority2Violations>1</maxPriority2Violations>
+					<maxPriority2Violations>6</maxPriority2Violations>
 					<maxPriority3Violations>3</maxPriority3Violations>
 					<sourceDirectory>${project.basedir}</sourceDirectory>
 					<includes>**/src/**/*.groovy</includes>
