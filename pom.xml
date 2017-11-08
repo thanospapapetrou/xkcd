@@ -133,7 +133,11 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
+		<project.build.itOutputDirectory>${project.build.directory}/it-classes</project.build.itOutputDirectory>
+		<project.build.itResourceDirectory>${project.basedir}/src/it/resources</project.build.itResourceDirectory>
+		<project.build.itSourceDirectory>${project.basedir}/src/it/groovy</project.build.itSourceDirectory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.checkstyle.configuration>${project.basedir}/checkstyle.xml</project.checkstyle.configuration>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -220,6 +224,7 @@
 	</dependencies>
 	<build>
 		<defaultGoal>verify</defaultGoal>
+		<testSourceDirectory>${project.basedir}/src/test/groovy</testSourceDirectory>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -234,7 +239,7 @@
 						</dependency>
 					</dependencies>
 					<configuration>
-						<configLocation>${project.basedir}/checkstyle.xml</configLocation> <!-- TODO -->
+						<configLocation>${project.checkstyle.configuration}</configLocation>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -251,8 +256,8 @@
 					<artifactId>maven-failsafe-plugin</artifactId>
 					<version>2.20.1</version>
 					<configuration>
-						<testSourceDirectory>${project.basedir}/src/it/groovy</testSourceDirectory> <!-- TODO -->
-						<testClassesDirectory>${project.build.directory}/it-classes</testClassesDirectory> <!-- TODO -->
+						<testSourceDirectory>${project.build.itSourceDirectory}</testSourceDirectory>
+						<testClassesDirectory>${project.build.itOutputDirectory}</testClassesDirectory>
 						<includes>
 							<include>**/*Spec.class</include>
 						</includes>
@@ -357,7 +362,7 @@
 							<rule>
 								<limits>
 									<limit>
-										<minimum>0.27</minimum>
+										<minimum>0.14</minimum>
 									</limit>
 								</limits>
 							</rule>
@@ -396,13 +401,13 @@
 						<configuration>
 							<testSources>
 								<testSource>
-									<directory>${project.basedir}/src/test/groovy</directory> <!-- TODO -->
+									<directory>${project.build.testSourceDirectory}</directory>
 									<includes>
 										<include>**/*Spec.groovy</include>
 									</includes>
 								</testSource>
 							</testSources>
-							<outputDirectory>${project.build.directory}/test-classes</outputDirectory> <!-- TODO -->
+							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -414,13 +419,13 @@
 						<configuration>
 							<testSources>
 								<testSource>
-									<directory>${project.basedir}/src/it/groovy</directory> <!-- TODO -->
+									<directory>${project.build.itSourceDirectory}</directory>
 									<includes>
 										<include>**/*.groovy</include>
 									</includes>
 								</testSource>
 							</testSources>
-							<outputDirectory>${project.build.directory}/it-classes</outputDirectory> <!-- TODO -->
+							<outputDirectory>${project.build.itOutputDirectory}</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -463,10 +468,10 @@
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${project.basedir}/src/it/resources</directory> <!-- TODO -->
+									<directory>${project.build.itResourceDirectory}</directory>
 								</resource>
 							</resources>
-							<outputDirectory>${project.build.directory}/it-classes</outputDirectory> <!-- TODO -->
+							<outputDirectory>${project.build.itOutputDirectory}</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -538,7 +543,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
-					<configLocation>${project.basedir}/checkstyle.xml</configLocation> <!-- TODO -->
+					<configLocation>${project.checkstyle.configuration}</configLocation>
 				</configuration>
 				<reportSets>
 					<reportSet>
